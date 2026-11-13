@@ -11,6 +11,7 @@ Build Tools with a Windows SDK, CMake 3.25 or newer, Ninja, and x64 Clang.
 The target builds the GPU plugin and its SDK dependencies in WorkDir.
 StageBesideExecutable optionally copies the alternate plugin beside a test EXE.
 Select that plugin on the next launch with --gpu_plugin=overg-resolve.
+Verify runs synthetic GPU register tests with the patched plugin's object files.
 .EXAMPLE
 ./scripts/build-resolve-plugin.ps1 -WorkDir C:/build/overg-resolve -LlvmBin C:/llvm/bin
 .EXAMPLE
@@ -21,13 +22,18 @@ param(
     [Parameter(Mandatory)][string]$WorkDir,
     [string]$LlvmBin,
     [ValidateRange(1, 64)][int]$Jobs = 4,
-    [string]$StageBesideExecutable
+    [string]$StageBesideExecutable,
+    [switch]$Verify
 )
 
 $ErrorActionPreference = 'Stop'
 $revision = 'bd833a2ab69d305f99ddf57418fc38ffec8af93d'
 $origin = 'https://github.com/rexglue/rexglue-sdk.git'
-$patch = (Get-Item -LiteralPath (Join-Path $PSScriptRoot '../third_party/patches/rexglue-0.10.1-empty-resolve.patch')).FullName
+$patchDir = (Get-Item -LiteralPath (Join-Path $PSScriptRoot '../third_party/patches')).FullName
+$patches = @(
+    @{ Source = 'src/graphics/util/draw.cpp'; Patch = 'rexglue-0.10.1-empty-resolve.patch'; Blob = '5e97ff1ef04066a2e9f9ae9e96e50340b861040b' }
+    @{ Source = 'thirdparty/CMakeLists.txt'; Patch = 'rexglue-0.10.1-windows-mspack.patch'; Blob = '141e5b83284168133442dca1ed5f47fb84c7051a' }
+)
 $work = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($WorkDir)
 $marker = Join-Path $work '.overg-resolve-build'
 $sourceDir = Join-Path $work 'sdk'
@@ -51,10 +57,10 @@ if ($env:VSCMD_ARG_TGT_ARCH -ne 'x64' -or $env:VSCMD_ARG_HOST_ARCH -ne 'x64') {
     Import-Module (Join-Path $vsRoot 'Common7/Tools/Microsoft.VisualStudio.DevShell.dll')
     Enter-VsDevShell -VsInstallPath $vsRoot -Arch amd64 -HostArch amd64 -SkipAutomaticLocation
 }
-$git = (Get-Command git.exe -CommandType Application).Source
-$cmake = (Get-Command cmake.exe -CommandType Application).Source
-$ninja = (Get-Command ninja.exe -CommandType Application).Source
-if (!$LlvmBin) { $LlvmBin = Split-Path (Get-Command clang++.exe -CommandType Application).Source }
+$git = (Get-Command git.exe -CommandType Application | Select-Object -First 1).Source
+$cmake = (Get-Command cmake.exe -CommandType Application | Select-Object -First 1).Source
+$ninja = (Get-Command ninja.exe -CommandType Application | Select-Object -First 1).Source
+if (!$LlvmBin) { $LlvmBin = Split-Path (Get-Command clang++.exe -CommandType Application | Select-Object -First 1).Source }
 $clang = (Get-Item -LiteralPath (Join-Path $LlvmBin 'clang.exe')).FullName
 $clangxx = (Get-Item -LiteralPath (Join-Path $LlvmBin 'clang++.exe')).FullName
 
@@ -75,16 +81,19 @@ if ((Invoke-Checked $git @('-C', $sourceDir, 'rev-parse', 'HEAD')) -ne $revision
     throw 'The SDK source checkout does not match the pinned release and origin.'
 }
 $changedFiles = @(Invoke-Checked $git @('-C', $sourceDir, 'diff', '--name-only', 'HEAD', '--ignore-submodules=all'))
-if (@($changedFiles | Where-Object { $_ -ne 'src/graphics/util/draw.cpp' }).Count) {
+if (@($changedFiles | Where-Object { $_ -notin $patches.Source }).Count) {
     throw 'The SDK source checkout has changes outside the patch.'
 }
-if (!$changedFiles.Count) {
-    Invoke-Checked $git @('-C', $sourceDir, 'apply', '--check', $patch)
-    Invoke-Checked $git @('-C', $sourceDir, 'apply', $patch)
-}
-$patchedBlob = Invoke-Checked $git @('-C', $sourceDir, 'hash-object', '--', 'src/graphics/util/draw.cpp')
-if ($patchedBlob -ne '3b79a3442d3392b5ac30a9eb94bb95e7ad7f31e5') {
-    throw 'The patched SDK source file differs from the expected content.'
+foreach ($entry in $patches) {
+    if ($entry.Source -notin $changedFiles) {
+        $patch = Join-Path $patchDir $entry.Patch
+        Invoke-Checked $git @('-C', $sourceDir, 'apply', '--check', $patch)
+        Invoke-Checked $git @('-C', $sourceDir, 'apply', $patch)
+    }
+    $patchedBlob = Invoke-Checked $git @('-C', $sourceDir, 'hash-object', '--', $entry.Source)
+    if ($patchedBlob -ne $entry.Blob) {
+        throw "The patched SDK file $($entry.Source) differs from the expected content."
+    }
 }
 Invoke-Checked $git @('-C', $sourceDir, 'submodule', 'update', '--init', '--recursive', '--depth', '1', '--jobs', "$Jobs")
 
@@ -99,6 +108,25 @@ try {
     Pop-Location
 }
 $built = (Get-Item -LiteralPath (Join-Path $sourceDir 'out/win-amd64/RelWithDebInfo/rexgpu-xenosrd.dll')).FullName
+if ($Verify) {
+    $checkSrc = (Get-Item -LiteralPath (Join-Path $PSScriptRoot '../tests/empty-resolve')).FullName
+    $sdkBuild = Join-Path $sourceDir 'out/build/win-amd64'
+    $verifyBuild = Join-Path $work 'resolve-check'
+    $sdkRoot = $env:REXSDK
+    if (!$sdkRoot) { $sdkRoot = Join-Path $PSScriptRoot '../../private/tools/rexglue/win-amd64' }
+    $sdkRoot = (Get-Item -LiteralPath $sdkRoot).FullName
+    Invoke-Checked $cmake @('-S', $checkSrc, '-B', $verifyBuild, '-G', 'Ninja',
+        '-DCMAKE_BUILD_TYPE=RelWithDebInfo', "-DCMAKE_CXX_COMPILER:FILEPATH=$clangxx",
+        "-DCMAKE_MAKE_PROGRAM:FILEPATH=$ninja", "-DCMAKE_PREFIX_PATH=$sdkRoot", "-DSDK_BUILD=$sdkBuild")
+    Invoke-Checked $cmake @('--build', $verifyBuild, '--parallel', "$Jobs")
+    $previousPath = $env:Path
+    try {
+        $env:Path = (Join-Path $sdkRoot 'bin') + [IO.Path]::PathSeparator + $previousPath
+        Invoke-Checked (Join-Path $verifyBuild 'overg-resolve-check.exe') @()
+    } finally {
+        $env:Path = $previousPath
+    }
+}
 $sha = (Get-FileHash -LiteralPath $built -Algorithm SHA256).Hash
 $stageDir = if ($StageBesideExecutable) { $hostExe.DirectoryName } else { $work }
 $staged = Join-Path $stageDir $dllName

@@ -1,20 +1,68 @@
 diff --git a/src/graphics/util/draw.cpp b/src/graphics/util/draw.cpp
+index 305380e..5e97ff1 100644
 --- a/src/graphics/util/draw.cpp
 +++ b/src/graphics/util/draw.cpp
-@@ -885,8 +885,12 @@ bool GetResolveInfo(const RegisterFile& regs, const memory::Memory& memory,
--  assert_true(x0 < x1 && y0 < y1);
--  if (x0 >= x1 || y0 >= y1) {
--    REXGPU_ERROR("Resolve region is empty");
-+  assert_true(x0 <= x1 && y0 <= y1);
+@@ -839,7 +839,26 @@ bool GetResolveInfo(const RegisterFile& regs, const memory::Memory& memory,
+   x1 = std::clamp(x1, int32_t(scissor.offset[0]), scissor_right);
+   y1 = std::clamp(y1, int32_t(scissor.offset[1]), scissor_bottom);
+-
++
++  auto rb_surface_info = regs.Get<reg::RB_SURFACE_INFO>();
++  if (rb_surface_info.msaa_samples > xenos::MsaaSamples::k4X) {
++    // Safety check because a lot of code assumes up to 4x.
++    assert_always();
++    REXGPU_ERROR(
++        "{}x MSAA requested by the guest in a resolve, Xenos only supports up "
++        "to 4x",
++        uint32_t(1) << uint32_t(rb_surface_info.msaa_samples));
++    return false;
++  }
++
+   assert_true(x0 <= x1 && y0 <= y1);
 +  if (x0 > x1 || y0 > y1) {
 +    REXGPU_ERROR("Resolve region has inverted bounds ({}, {}) to ({}, {})", x0, y0, x1, y1);
-     return false;
-   }
++    return false;
++  }
 +  if (x0 == x1 || y0 == y1) {
-+    // Both backends treat the zero extents initialized above as a no-op.
++    // Alignment must not turn an empty clipped coverage into a copy or a clear.
 +    return true;
 +  }
 -
 +
+   // Direct3D 9's D3DDevice_Resolve internally rounds the right/bottom of the
+   // rectangle internally to 8. While all the alignment should have already been
+@@ -852,17 +871,6 @@ bool GetResolveInfo(const RegisterFile& regs, const memory::Memory& memory,
+   x1 = rex::align(x1, int32_t(xenos::kResolveAlignmentPixels));
+   y1 = rex::align(y1, int32_t(xenos::kResolveAlignmentPixels));
+-
++
+-  auto rb_surface_info = regs.Get<reg::RB_SURFACE_INFO>();
+-  if (rb_surface_info.msaa_samples > xenos::MsaaSamples::k4X) {
+-    // Safety check because a lot of code assumes up to 4x.
+-    assert_always();
+-    REXGPU_ERROR(
+-        "{}x MSAA requested by the guest in a resolve, Xenos only supports up "
+-        "to 4x",
+-        uint32_t(1) << uint32_t(rb_surface_info.msaa_samples));
+-    return false;
+-  }
+-
+   // Clamp to the EDRAM surface pitch (maximum possible surface pitch is also
+   // assumed to be the largest resolvable size).
+   int32_t surface_pitch_aligned =
+@@ -882,10 +890,9 @@ bool GetResolveInfo(const RegisterFile& regs, const memory::Memory& memory,
+     y1 = y0 + int32_t(xenos::kMaxResolveSize);
+   }
+-
++
+-  assert_true(x0 < x1 && y0 < y1);
+-  if (x0 >= x1 || y0 >= y1) {
+-    REXGPU_ERROR("Resolve region is empty");
+-    return false;
++  if (x0 == x1) {
++    // Clamping to the EDRAM pitch removed the entire horizontal interval.
++    return true;
+   }
+-
++
    info_out.coordinate_info.width_div_8 = uint32_t(x1 - x0) >> xenos::kResolveAlignmentPixelsLog2;
-   info_out.height_div_8 = uint32_t(y1 - y0) >> xenos::kResolveAlignmentPixelsLog2;
