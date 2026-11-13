@@ -4,13 +4,15 @@ On November 13, 2026, two independent Windows x64 builds entered translated game
 
 ## Reproduce the build
 
-1. Start with the USA/Europe Xbox 360 disc identified in the [inventory](inventory.md). Put the checkout and a directory named `private` next to one another. From the checkout, set `$iso` to the full path of your local disc. Compare its SHA-256 to the inventory. With XDVDFS v0.8.3 available, extract the image locally. An existing, complete extraction can be placed directly in `../private/game`. [XDVDFS release](https://github.com/antangelo/xdvdfs/releases/tag/v0.8.3)
+1. From the checkout, prepare the USA/Europe disc identified in the [inventory](inventory.md). Set `$iso` to the path of your local ISO and supply the Windows XDVDFS 0.8.3 executable. If `xdvdfs.exe` is on PATH, omit `-XdvdfsPath`. [XDVDFS release](https://github.com/antangelo/xdvdfs/releases/tag/v0.8.3)
 
    ```powershell
-   Get-FileHash -LiteralPath $iso -Algorithm SHA256
-   New-Item -ItemType Directory -Force ../private | Out-Null
-   xdvdfs unpack "$iso" ../private/game
+   .\scripts\prepare-game.ps1 -IsoPath $iso -XdvdfsPath 'C:\Tools\xdvdfs.exe'
    ```
+
+   For an existing extraction at `../private/game`, run `.\scripts\prepare-game.ps1` without arguments. Verification works without the ISO or XDVDFS. Use `-GameRoot` to prepare or verify a different directory outside the checkout. The build script reads `../private/game`.
+
+   The script reports the verified ISO SHA-256 and checks the size and SHA-256 of all 81 disc files, including the audio banks, movie, archives and executable. It preserves extra local files and refuses to replace an incomplete or altered extraction. For a new extraction it verifies a temporary directory on the destination volume before renaming it into place. A forced process exit can leave an unpublished `.overg-unpack-*` directory in the destination's parent. A repeat run uses a new temporary name.
 
 2. Install the Windows x64 C++ build tools, Windows SDK, CMake and Ninja. The tested versions were Visual Studio 2022 Build Tools 17.14.45, Windows SDK 10.0.26100.0, CMake 3.31.6 and Ninja 1.12.1. The Visual Studio CMake component supplies both CMake and Ninja on the reference PC.
 3. Install LLVM 20.1.8 for Windows x64. Download the ReXGlue v0.10.1 Windows AMD64 ZIP, verify its SHA-256 and extract the directory containing `bin`, `include`, `lib` and `share`. The table gives the tested downloads. [LLVM release](https://github.com/llvm/llvm-project/releases/tag/llvmorg-20.1.8) and [ReXGlue release](https://github.com/rexglue/rexglue-sdk/releases/tag/v0.10.1)
