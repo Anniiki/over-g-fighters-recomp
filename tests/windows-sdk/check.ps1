@@ -31,3 +31,47 @@ foreach ($language in 1, 3, 4, 5) {
     if ("$reported".Trim() -ne "$language") { throw "Expected language $language, received '$reported'." }
     Write-Host "Language $language passed."
 }
+
+$profiles = Join-Path $BuildDir ("profile-check-" + [guid]::NewGuid().ToString('N'))
+$null = New-Item -ItemType Directory -Path $profiles
+$legacy = Join-Path $profiles 'overg.toml'
+$first = Join-Path $profiles 'first player'
+$second = Join-Path $profiles 'second player'
+$null = New-Item -ItemType Directory -Path $first,$second
+"# Existing player preferences`nuser_language = 4`n" | Set-Content -LiteralPath $legacy -Encoding utf8NoBOM
+$original = (Get-FileHash -LiteralPath $legacy).Hash
+(Get-Item -LiteralPath $legacy).IsReadOnly = $true
+function Check-Profile([string] $PlayerPath, [string] $Language, [string[]] $MoreArgs = @()) {
+    $actual = & $exe --profile-check $PlayerPath $legacy @MoreArgs
+    if ((@($actual)[-1]).Trim() -ne $Language) { throw "Unexpected profile language: $actual" }
+}
+Check-Profile $first '4'
+if ((Get-FileHash -LiteralPath (Join-Path $first 'overg.toml')).Hash -ne $original) { throw 'Migration changed the original TOML contents.' }
+Check-Profile $first '3' @('3')
+Check-Profile $second '4'
+if ((Get-FileHash -LiteralPath $legacy).Hash -ne $original) { throw 'Saving one profile changed the original config.' }
+Check-Profile $first '3'
+Check-Profile $first '5' @('--user_language=5')
+Check-Profile $first '3'
+$concurrent = Join-Path $profiles 'concurrent player'
+$workers = foreach ($i in 1..4) {
+    $start = [System.Diagnostics.ProcessStartInfo]::new($exe)
+    $start.UseShellExecute = $false
+    $start.RedirectStandardOutput = $true
+    foreach ($arg in '--profile-check',$concurrent,$legacy) { $start.ArgumentList.Add($arg) }
+    [System.Diagnostics.Process]::Start($start)
+}
+foreach ($worker in $workers) {
+    $worker.WaitForExit()
+    $language = $worker.StandardOutput.ReadToEnd().Trim()
+    if ($worker.ExitCode -ne 0 -or $language -ne '4') { throw 'Concurrent launches did not load the original preferences.' }
+    $worker.Dispose()
+}
+if ((Get-FileHash -LiteralPath (Join-Path $concurrent 'overg.toml')).Hash -ne $original) { throw 'Concurrent migration produced an incomplete TOML.' }
+(Get-Item -LiteralPath $legacy).IsReadOnly = $false
+Remove-Item -LiteralPath $legacy
+$fresh = Join-Path $profiles 'new player'
+Check-Profile $fresh '1'
+Check-Profile $fresh '5' @('5')
+Check-Profile $fresh '5'
+Write-Host 'Legacy settings, independent profiles, and command-line override passed.'

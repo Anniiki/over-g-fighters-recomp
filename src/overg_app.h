@@ -9,6 +9,7 @@
 
 #include "achievement_toasts.h"
 #include "gamepad_keyboard.h"
+#include "profile_config.h"
 
 class OvergApp : public rex::ReXApp {
  public:
@@ -22,13 +23,7 @@ class OvergApp : public rex::ReXApp {
 
  protected:
   void OnConfigurePaths(rex::PathConfig& paths) override {
-    if (paths.user_data_root.empty()) {
-      return;
-    }
-    const auto player_config = paths.user_data_root / "overg.toml";
-    if (std::filesystem::exists(player_config) || !std::filesystem::exists(paths.config_path)) {
-      paths.config_path = player_config;
-    }
+    paths.config_path = ProfileConfigPath(paths.user_data_root, paths.config_path);
   }
 
   void OnCreateDialogs(rex::ui::ImGuiDrawer* drawer) override;

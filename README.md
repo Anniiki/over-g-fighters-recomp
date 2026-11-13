@@ -10,6 +10,8 @@ After [building the port](docs/first-boot.md#reproduce-the-build), connect your 
 
 To set a preferred console language for this player, edit `%LOCALAPPDATA%\Over G Fighters Recomp\overg.toml` and add a top-level line such as `user_language = 4` for French. The other edition languages use 1 for English, 3 for German and 5 for Spanish. The setting applies on the next launch. Menu text, subtitles and spoken dialogue have separate in-game coverage. [Language test scope](docs/specification.md#campaign-route)
 
+A new player profile starts with a copy of `overg.toml` from beside the executable when that file exists. Subsequent settings changes are saved in the player's profile. An existing profile configuration takes precedence.
+
 1. Press Menu (Start) to skip the opening movie, then press it again at the title. On a new profile, confirm creation of the game data with A.
 2. Choose **New Game**, a difficulty and a save slot. In the pilot-name dialog, move with the D-pad and press A to type. Use Y for upper or lower case, X to delete and Menu (Start) to confirm. B cancels. You can also type with the Windows keyboard and click OK. Save, then choose **Scenario** in Contents.
 3. In flight, use the left stick for pitch and roll, RB and LB for thrust, the triggers for rudder, the right stick button for camera view and Start to pause. The first Scenario mission opens on the carrier.
