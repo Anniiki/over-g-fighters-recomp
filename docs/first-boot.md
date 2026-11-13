@@ -151,6 +151,8 @@ On the same Beginner save copy, the private QA pilot flew the F-117A in South Am
 
 The private QA pilot completed the second tactical mission (`km04_02_aa`) after retrying the escort in the same running game. The French debrief confirmed that the airborne troops reached their destination. It credited two MiG-25s, one Yak-141 and two Kfirs for 5,040 target points. The score screen showed 2 min 59.46 s of flight time, 1,800 technical points, zero penalty and rank B (6,840 total). After the game confirmed the save, the slot retained both tactical scores. The map then offered South America's strategic mission to defend the VIP transport.
 
+In the strategic mission (`main04_base`), the pilot took off from the runway. The game credited all six objectives in the first stage and two in the second. One attempt ended when the VIP transport was lost in the second stage. After the game closed, all eight files in the campaign profile matched the saved checkpoint. Both tactical scores were intact and the strategic mission was available to retry with a score of zero.
+
 ### Opening audio and video on a shared clock
 
 In the second launch, the window frames and audio captured from the game process used Windows performance-counter timestamps. At movie positions 0.400 and 3.436 seconds, the matched audio led the matched picture by approximately 18 and 3 ms respectively. The video sampling uncertainty is up to one source frame (33.4 ms), with up to 2 ms per accepted audio packet. Both observations are consistent with synchronization to within a frame. The movie was skipped on this run, so it did not measure absolute synchronization through the ending.
