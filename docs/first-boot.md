@@ -95,6 +95,10 @@ The process used for the first takeoff exited. A new process loaded the same pri
 
 A player then started a separate fresh profile using [play.cmd](../play.cmd) and a physical USB Xbox-compatible controller. Windows exposed the pad at XInput index 1. Start and A were followed by visible transitions through the title, game data creation and the pilot slot screen. In Scenario the player took off from the carrier. The HUD showed 209 kt and 810 ft with the landing gear reminder, then 296 kt and 1,140 ft in a later exterior view. Frame captures and physical stick readings were recorded while the game had focus. This run establishes player-one operation with an actual controller.
 
+The title displayed Mission Complete. The debriefing identified Scenario 1, *Intercept the bogeys*, and reported 1 min 41.43 s of flight time, five targets, 6,600 target points, 3,000 technical points, zero penalty and rank A (9,600 total). The player continued through the replay save confirmation to the next briefing. The process then stopped at the unregistered guest function `0x820C22E0`. The disk holds an updated slot 01. A cold reload and return to the next sortie will establish which progress was retained.
+
+The missing function is a seven-instruction leaf in slot `+0x20` of the table at `0x8200701C`. It advances two fields by the supplied offset and returns. The [translation hint](../config/entry.toml) registers its 28 bytes. The regenerated build includes all twelve entries in this table.
+
 ### Opening audio and video on a shared clock
 
 In the second launch, the window frames and audio captured from the game process used Windows performance-counter timestamps. At movie positions 0.400 and 3.436 seconds, the matched audio led the matched picture by approximately 18 and 3 ms respectively. The video sampling uncertainty is up to one source frame (33.4 ms), with up to 2 ms per accepted audio packet. Both observations are consistent with synchronization to within a frame. The movie was skipped on this run, so it did not measure absolute synchronization through the ending.

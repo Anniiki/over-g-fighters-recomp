@@ -2,11 +2,13 @@
 
 Over G Fighters Recomp is a native Windows PC port in development. It uses the ReXGlue SDK to translate the Xbox 360 PowerPC executable into C++ ahead of time. Each player supplies their own copy of the supported disc.
 
-**Status on November 13, 2026.** A player used a physical Xbox-compatible controller to start a fresh Beginner campaign, take off from the carrier and fly the first Scenario mission. The opening movie plays with its original audio. Pilot-name entry currently uses the Windows keyboard. A separate cold restart recovered the initial pilot save. Mission completion and recovery of completed progress are still under test. [Build procedure and test results](docs/first-boot.md#physical-controller)
+**Status on November 13, 2026.** A player used a physical Xbox-compatible controller to finish the first Beginner mission, *Intercept the bogeys*, with rank A. The next briefing exposed a missing translated function. The new build registers that function. The complete campaign and recovery of a cleared mission after restarting are still under test. [Build procedure and test results](docs/first-boot.md#physical-controller)
 
 ## Play with a controller
 
 After [building the port](docs/first-boot.md#reproduce-the-build), connect your Xbox-compatible controller and double-click [play.cmd](play.cmd). The launcher uses XInput and stores your campaign data in `%LOCALAPPDATA%\Over G Fighters Recomp`. Keep the same profile for **Load Game** after restarting. For an SDL-compatible controller, launch `.\play.cmd sdl` from the checkout.
+
+To set a preferred console language for this player, edit `%LOCALAPPDATA%\Over G Fighters Recomp\overg.toml` and add a top-level line such as `user_language = 4` for French. The other edition languages use 1 for English, 3 for German and 5 for Spanish. The setting applies on the next launch. Menu text, subtitles and spoken dialogue have separate in-game coverage. [Language test scope](docs/specification.md#campaign-route)
 
 1. Press Menu (Start) to skip the opening movie, then press it again at the title. On a new profile, confirm creation of the game data with A.
 2. Choose **New Game**, a difficulty and a save slot. In the pilot-name dialog, move with the D-pad and press A to type. Use Y for upper or lower case, X to delete and Menu (Start) to confirm. B cancels. You can also type with the Windows keyboard and click OK. Save, then choose **Scenario** in Contents.

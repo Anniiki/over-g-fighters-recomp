@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <filesystem>
 #include <rex/rex_app.h>
 
 #include "gamepad_keyboard.h"
@@ -19,6 +20,16 @@ class OvergApp : public rex::ReXApp {
   }
 
  protected:
+  void OnConfigurePaths(rex::PathConfig& paths) override {
+    if (paths.user_data_root.empty()) {
+      return;
+    }
+    const auto player_config = paths.user_data_root / "overg.toml";
+    if (std::filesystem::exists(player_config) || !std::filesystem::exists(paths.config_path)) {
+      paths.config_path = player_config;
+    }
+  }
+
   void OnCreateDialogs(rex::ui::ImGuiDrawer* drawer) override;
 
   void OnPreSetup(rex::RuntimeConfig& config) override {

@@ -18,6 +18,9 @@ registers = ["fpscr"]
 
 # The SDK reports a direct branch here from 0x824B4FCC during validation.
 [functions]
+# Post-mission briefing callback. Six instructions advance two cursors,
+# followed by blr at 0x820C22F8 and a padding word.
+0x820C22E0 = { size = 28 }
 0x824AA1F0 = {}
 # The virtual call at 0x824B7690 uses slot +8. This leaf ends with blr.
 0x824A95A8 = { size = 28 }
