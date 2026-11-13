@@ -52,3 +52,16 @@ These Windows 11 tests used a Ryzen 7 5800X3D, Radeon RX 6950 XT, a 160 Hz deskt
 In a separate 120-second sample, the updated menu produced no sub-millisecond intervals. It did show 12 clusters of pauses about ten seconds apart. The extra UI paints in the original build can conceal pauses in the game's own output. The menu timing issue remains open. The flight sample did not reproduce that periodic pattern. Both results are specific to the tested scenes.
 
 Video capture can also affect these results. In a separate same-session comparison on the original build, the longest observed interval between display changes was 193.77 ms over 32.2 s with Windows Graphics Capture active and 12.96 ms over 35.2 s after stopping it. The presentation mode switched from composed flip to independent flip. Record capture state in each report.
+
+## Career flight with the pilot active
+
+PresentMon 2.6.0 passively observed the running game by PID during an F-14A flight in `main03_cv`. The first and last presentations were 44.93 seconds apart. Existing campaign images confirmed the cockpit at the start, midpoint and end. The pilot continued operating the aircraft throughout the sample. The measurement introduced no input or settings changes.
+
+Windows recorded 2,697 presentations on one composed-flip swap chain and supplied display timing for every presentation.
+
+| Interval | Average rate | Median | P99 | Maximum | Intervals above 25 ms |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Application submissions (`MsBetweenPresents`) | 60.00/s | 16.657 ms | 19.135 ms | 20.296 ms | 0 |
+| Display changes (`MsBetweenDisplayChange`) | 60.00/s | 18.750 ms | 22.867 ms | 31.306 ms | 26 |
+
+The game held foreground focus for the first 2,236 presentations, about 37.3 seconds. All 26 display intervals above 25 ms occurred during that period, with a foreground display p99 of 25.007 ms. No display interval exceeded 33.33 ms during the capture. These counters describe buffer delivery to the display. Counting visually distinct game images or measuring the guest simulation rate requires separate evidence.
