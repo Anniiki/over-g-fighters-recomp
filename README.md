@@ -2,7 +2,7 @@
 
 Over G Fighters Recomp is a native Windows PC port in development. It uses the ReXGlue SDK to translate the Xbox 360 PowerPC executable into C++ ahead of time. Each player supplies their own copy of the supported disc.
 
-**Status on November 13, 2026.** On a fresh Beginner profile, the native Windows x64 build plays the opening movie, enters the first Scenario mission and launches the aircraft from the carrier. A virtual Xbox 360 controller operated the menus, throttle, camera and pause screen. The test used the Windows keyboard for pilot-name entry. A cold restart recovered the initial pilot save. Mission completion and recovery of completed progress are still under test. [Build procedure and test results](docs/first-boot.md#first-scenario-launch)
+**Status on November 13, 2026.** A player used a physical Xbox-compatible controller to start a fresh Beginner campaign, take off from the carrier and fly the first Scenario mission. The opening movie plays with its original audio. Pilot-name entry currently uses the Windows keyboard. A separate cold restart recovered the initial pilot save. Mission completion and recovery of completed progress are still under test. [Build procedure and test results](docs/first-boot.md#physical-controller)
 
 ## Play with a controller
 

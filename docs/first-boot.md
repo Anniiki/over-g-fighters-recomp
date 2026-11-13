@@ -85,9 +85,15 @@ Selecting Scenario showed the controller loading screen, a city and a carrier gr
 
 Increasing thrust with the controller's right bumper started the launch. The deck moved beneath the aircraft and the HUD instruction changed from increasing thrust to increasing altitude. The right stick button changed the camera. Start opened the pause menu with a tactical map, and the player could return to the flight and switch to an exterior view.
 
+One carrier clearance was identified independently in both picture and sound. Two cockpit captures showed the English clearance subtitle. In the audio captured from the game process, 1.542 seconds of speech matched entry 56 (zero-based) of the disc's English global voice bank. Normalized correlation was 0.951 in the 180 to 1800 Hz band. The next-best match among the 3,174 English and Japanese entries scored 0.223. These observations identify the voice for this cue.
+
 ### Cold restart before the first mission clear
 
 The process used for the first takeoff exited. A new process loaded the same private profile using the main menu's Load Game option. Slot 01 showed the saved pilot name, the Greenhorn class and `Area1(Beginner)/00`. The title confirmed the load and returned to the campaign. This test recovered the initial save. Saving and recovering a completed mission remains open.
+
+### Physical controller
+
+A player then started a separate fresh profile using [play.cmd](../play.cmd) and a physical USB Xbox-compatible controller. Windows exposed the pad at XInput index 1. Start and A were followed by visible transitions through the title, game data creation and the pilot slot screen. In Scenario the player took off from the carrier. The HUD showed 209 kt and 810 ft with the landing gear reminder, then 296 kt and 1,140 ft in a later exterior view. Frame captures and physical stick readings were recorded while the game had focus. This run establishes player-one operation with an actual controller.
 
 ### Opening audio and video on a shared clock
 
