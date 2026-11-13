@@ -143,6 +143,8 @@ The first Far East tactical mission ran on the same Beginner save copy. The QA c
 
 The second Far East tactical mission used the F-16C and the game's standard loadout. The title credited two Baskunchak transports. The results showed 1 min 24.15 s, zero penalty and rank C (4,200 points). Both Far East tactical tests used the same Windows x64 QA executable, SHA-256 `5a3857fabb3be49c753a1fb888623b25cd675c71f910c0561d05d6b3050e8cea`, with French UI and subtitles.
 
+The F-14A cleared the Far East strategic mission on Beginner. During this flight, the testers adjusted the private QA pilot and reconnected it to the same running game instance. The French debrief showed 6 min 50.93 s of flight time, 6,720 target points, 3,600 technical points, zero penalty and rank A (10,320 points). The saved slot retained the 10,320-point score and opened the first tactical mission in Area 4. The region selector displayed South America and the Amazon River.
+
 ### Opening audio and video on a shared clock
 
 In the second launch, the window frames and audio captured from the game process used Windows performance-counter timestamps. At movie positions 0.400 and 3.436 seconds, the matched audio led the matched picture by approximately 18 and 3 ms respectively. The video sampling uncertainty is up to one source frame (33.4 ms), with up to 2 ms per accepted audio packet. Both observations are consistent with synchronization to within a frame. The movie was skipped on this run, so it did not measure absolute synchronization through the ending.
