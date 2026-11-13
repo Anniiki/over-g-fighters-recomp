@@ -69,7 +69,7 @@ These tests use the USA/Europe executable identified by SHA-256 in the [inventor
 
 On a fresh profile the movie played through its final transition, and the title screen displayed its Start prompt about 149 seconds after launch. Window captures matched the disc video at multiple positions, including 88 seconds. Game-process audio matched the disc soundtrack in 32 two-second windows over 124 seconds, with normalized correlations from 0.972 to 0.992. The audio offset stayed constant within the 0.167 ms analysis resolution. The capture did not record the audio and video against a shared clock, so it cannot establish their absolute synchronization.
 
-On another fresh profile the XInput backend received Start from a virtual Xbox 360 controller about 49 seconds after launch. The title screen appeared by 51 seconds. Both runs subsequently entered the automatic demonstration and stopped loading it at the same branch table in `0x825C7008`. The title-screen timeout is part of the test: reaching it differs from entering the main menu.
+On another fresh profile the XInput backend received Start from a virtual Xbox 360 controller about 49 seconds after launch. The title screen appeared by 51 seconds. Both runs subsequently entered the automatic demonstration and stopped loading it at the same branch table in `0x825C7008`. Registering the four destinations at `0x825C70B0` allowed a later unattended title screen to enter the demonstration and render the carrier scene. The disc index contains five demonstration replay files. This scene was observed separately from the player-controlled Scenario takeoff.
 
 ### Main menu on a fresh profile
 
