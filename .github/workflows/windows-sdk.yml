@@ -1,0 +1,44 @@
+name: Windows SDK check
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows-sdk:
+    runs-on: windows-2022
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Download and verify LLVM and ReXGlue
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $PSNativeCommandUseErrorActionPreference = $true
+          Set-Location -LiteralPath $env:RUNNER_TEMP
+
+          function Get-ReleaseAsset($Url, $File, $Digest) {
+              curl.exe --fail --location --silent --show-error --retry 3 --output $File $Url
+              $actual = (Get-FileHash -LiteralPath $File -Algorithm SHA256).Hash
+              if ($actual -ne $Digest) { throw "Unexpected SHA-256 for $File ($actual)." }
+          }
+
+          Get-ReleaseAsset 'https://github.com/llvm/llvm-project/releases/download/llvmorg-20.1.8/LLVM-20.1.8-win64.exe' 'llvm-installer.exe' '3197846a2b19063687dd56e93e34cd941e3548d907f23a6131571321bdf9fe7b'
+          Get-ReleaseAsset 'https://github.com/rexglue/rexglue-sdk/releases/download/v0.10.1/rexglue-sdk-0.10.1-win-amd64.zip' 'sdk.zip' '26dbcd19e6976a7ad349917bffc58c1a0f21ad43d71a963d16b623c8e70d1f4d'
+          7z.exe x llvm-installer.exe -ollvm -y -bso0
+          Expand-Archive -LiteralPath sdk.zip -DestinationPath sdk
+
+      - name: Build and run the host language check
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $PSNativeCommandUseErrorActionPreference = $true
+          .\tests\windows-sdk\check.ps1 -SdkRoot "$env:RUNNER_TEMP\sdk\win-amd64" -LlvmBin "$env:RUNNER_TEMP\llvm\bin" -BuildDir "$env:RUNNER_TEMP\sdk-check"

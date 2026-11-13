@@ -41,6 +41,16 @@ On November 13, 2026, two independent Windows x64 builds entered translated game
    Select-String -LiteralPath "$proof/boot.log" -Pattern 'entered recompiled','NtCreateFile','unregistered function'
    ```
 
+## Check the SDK without a disc
+
+The Windows SDK check runs on a hosted Windows Server 2022 machine. It verifies the official LLVM and ReXGlue downloads, compiles and links the project's language import, then checks that the SDK setting reaches the guest register for all four supported console languages. Full game builds and campaign tests require the player's files. [Workflow](../.github/workflows/windows-sdk.yml)
+
+To run the same compiler and runtime check locally, use PowerShell 7.4 or newer with the tools from steps 2 and 3.
+
+```powershell
+.\tests\windows-sdk\check.ps1 -SdkRoot ../private/tools/rexglue/win-amd64 -LlvmBin ../private/tools/llvm/bin -BuildDir ./out/sdk-check
+```
+
 ## Initial build at 492e478
 
 | Check | Evidence |
