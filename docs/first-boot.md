@@ -145,6 +145,10 @@ The second Far East tactical mission used the F-16C and the game's standard load
 
 The F-14A cleared the Far East strategic mission on Beginner. During this flight, the testers adjusted the private QA pilot and reconnected it to the same running game instance. The French debrief showed 6 min 50.93 s of flight time, 6,720 target points, 3,600 technical points, zero penalty and rank A (10,320 points). The saved slot retained the 10,320-point score and opened the first tactical mission in Area 4. The region selector displayed South America and the Amazon River.
 
+### South America campaign progression
+
+On the same Beginner save copy, the private QA pilot flew the F-117A in South America's first tactical mission (`km04_01_ag`). The pilot is a test tool kept outside the distributed port. The French debrief credited two B-2 aircraft on the ground for 6,000 target points. The score screen showed 9 min 44.85 s of flight time, 1,800 technical points, zero penalty and rank A (7,800 total). The game awarded the F-117A Nighthawk. After the save confirmation, the slot recorded 7,800 points for tactical mission 1 and showed tactical mission 2 as available.
+
 ### Opening audio and video on a shared clock
 
 In the second launch, the window frames and audio captured from the game process used Windows performance-counter timestamps. At movie positions 0.400 and 3.436 seconds, the matched audio led the matched picture by approximately 18 and 3 ms respectively. The video sampling uncertainty is up to one source frame (33.4 ms), with up to 2 ms per accepted audio packet. Both observations are consistent with synchronization to within a frame. The movie was skipped on this run, so it did not measure absolute synchronization through the ending.
