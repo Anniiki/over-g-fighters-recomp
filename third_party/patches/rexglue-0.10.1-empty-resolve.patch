@@ -1,0 +1,20 @@
+diff --git a/src/graphics/util/draw.cpp b/src/graphics/util/draw.cpp
+--- a/src/graphics/util/draw.cpp
++++ b/src/graphics/util/draw.cpp
+@@ -885,8 +885,12 @@ bool GetResolveInfo(const RegisterFile& regs, const memory::Memory& memory,
+-  assert_true(x0 < x1 && y0 < y1);
+-  if (x0 >= x1 || y0 >= y1) {
+-    REXGPU_ERROR("Resolve region is empty");
++  assert_true(x0 <= x1 && y0 <= y1);
++  if (x0 > x1 || y0 > y1) {
++    REXGPU_ERROR("Resolve region has inverted bounds ({}, {}) to ({}, {})", x0, y0, x1, y1);
+     return false;
+   }
++  if (x0 == x1 || y0 == y1) {
++    // Both backends treat the zero extents initialized above as a no-op.
++    return true;
++  }
+-
++
+   info_out.coordinate_info.width_div_8 = uint32_t(x1 - x0) >> xenos::kResolveAlignmentPixelsLog2;
+   info_out.height_div_8 = uint32_t(y1 - y0) >> xenos::kResolveAlignmentPixelsLog2;

@@ -1,2 +1,3 @@
 # ReXGlue writes the version stamp in this file with LF on Windows.
 overg_manifest.toml text eol=lf
+third_party/patches/*.patch text eol=lf
