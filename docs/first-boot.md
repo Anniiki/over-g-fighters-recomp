@@ -74,3 +74,11 @@ On another fresh profile the XInput backend received Start from a virtual Xbox 3
 A further cold start used the XInput backend and a virtual Xbox 360 controller. Start during the movie and again at the title opened the storage flow. The title found no saved data, offered to create it and confirmed creation. The runtime mounted its `save:` volume and the player directory received five 29,232-byte files named `Over-G.sav0` through `Over-G.sav4`, plus a container header. These are initial slot files. A completed mission and a cold reload are separate save tests.
 
 The main menu displayed New Game, Load Game, Replay Gallery and Credits. D-pad Down selected Load Game, D-pad Up returned to New Game, and A opened the Beginner and Expert difficulty choices.
+
+### First Scenario launch
+
+The Beginner route opened the pilot-name dialog. The test entered a name with the Windows keyboard and confirmed it in the SDK dialog. The game saved slot 01, reported success and opened the Contents menu. The slot's file digest changed while the four empty slots retained the same digest.
+
+Selecting Scenario showed the controller loading screen, a city and a carrier group. The next scene showed the player's cockpit on the carrier, with a visible HUD, deck, radar and launch clearance from the carrier operator. The D3D12 log reported repeated empty resolve regions during the preceding menu. Mission success, radio audio fidelity and recovery of completed progress require further tests.
+
+Increasing thrust with the controller's right bumper started the launch. The deck moved beneath the aircraft and the HUD instruction changed from increasing thrust to increasing altitude. The right stick button changed the camera. Start opened the pause menu with a tactical map, and the player could return to the flight and switch to an exterior view.
