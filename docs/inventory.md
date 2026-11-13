@@ -48,7 +48,7 @@ The file count, directory count, payload total and paths were independently repr
 | Windows toolchain | Visual Studio 2022 Build Tools 17.14.45, MSVC 14.44 and Windows SDK 10.0.26100.0 |
 | Build tools | CMake 3.31.6 and Ninja 1.12.1 run from the Visual Studio installation. Neither command resolved in the default PowerShell session. |
 | Utilities | Git 2.54.0, GitHub CLI 2.96.0, Python 3.14.5 and FFprobe 8.1.1 |
-| Prerequisites to resolve at first build | Clang and clang++ were not found on PATH or in the checked LLVM and Visual Studio locations. The ReXGlue CLI was not on PATH. |
+| First-build additions | LLVM 20.1.8 and the ReXGlue 0.10.1 Windows SDK were installed in the private tools directory. The build script locates them there or accepts explicit paths. [Build and boot evidence](first-boot.md) |
 
 ## What other ports demonstrate
 

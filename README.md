@@ -1,8 +1,8 @@
 # Over G Fighters Recomp
 
-Over G Fighters Recomp is a planned native Windows PC port of the Xbox 360 game. It uses the ReXGlue SDK to translate the original PowerPC executable into C++ ahead of time. Each player supplies their own copy of the supported disc.
+Over G Fighters Recomp is a native Windows PC port in development. It uses the ReXGlue SDK to translate the Xbox 360 PowerPC executable into C++ ahead of time. Each player supplies their own copy of the supported disc.
 
-**Status on November 13, 2026.** The reference disc and executable have been identified. Code generation, the first native build and gameplay verification are pending. There is no playable release.
+**Status on November 13, 2026.** The Windows x64 executable reaches translated game code at `0x8235EBA8`. It initializes the graphics and audio paths, then stops before the menu on an unregistered guest target at `0x824A95A8`. There is no playable release. [Build and boot evidence](docs/first-boot.md)
 
 ## Project goal
 
@@ -18,4 +18,4 @@ The first playable milestone is smaller. Starting from a clean profile, reach th
 | [Project specification](docs/specification.md) | Supported target, build design, scope, fidelity requirements and acceptance tests |
 | [Roadmap](docs/roadmap.md) | Implementation order, evidence needed at each milestone and the first build procedure |
 
-The public project is intended to contain original host code, build scripts, configuration and documentation. The ISO, extracted game files, generated translation and local game executable belong on the player's machine.
+The repository contains the host scaffold, build script, configuration and documentation. The ISO, extracted game files, generated translation and game executable stay on the player's machine. The host scaffold uses the [ReXGlue license](third_party/ReXGlue-LICENSE.txt).
