@@ -12,6 +12,7 @@ include(generated/rexglue.cmake)
 
 # Sources
 set(OVERG_SOURCES
+    src/language.cpp
     src/main.cpp
 )
 
