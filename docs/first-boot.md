@@ -131,6 +131,12 @@ A private Windows QA build loaded a fresh copy of the Beginner Area 2 save, sele
 
 The target breakdown listed three Tu-95s for 5,400 points. The final results showed 47.35 seconds of flight time, a 600-point no-damage bonus, zero penalty, rank S and 6,000 total points. The title then awarded the F-16C Fighting Falcon. An earlier diagnostic run with pauses also finished with three Tu-95s and rank S. The regular play launcher still starts the game with the player's controller.
 
+### Central Africa campaign progression
+
+The private Windows QA pilot loaded a copy of the completed 1.1A save in French and selected the Central Africa tactical mission. The game's debrief counted four targets, zero penalty and rank A (3,720 points). Saving and returning to the map made the strategic mission available.
+
+In the strategic mission, the player-one controller used Back to skip taxiing after clearance, took off from the runway and completed both objective groups in sequence. The debrief listed five BTR-80s, 3 min 56.93 s, zero penalty and rank C (4,200 points). The next save opened Area 3, Far East. The French region selector displayed the new area, and its first tactical mission could be entered.
+
 ### Opening audio and video on a shared clock
 
 In the second launch, the window frames and audio captured from the game process used Windows performance-counter timestamps. At movie positions 0.400 and 3.436 seconds, the matched audio led the matched picture by approximately 18 and 3 ms respectively. The video sampling uncertainty is up to one source frame (33.4 ms), with up to 2 ms per accepted audio packet. Both observations are consistent with synchronization to within a frame. The movie was skipped on this run, so it did not measure absolute synchronization through the ending.
