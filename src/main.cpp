@@ -7,6 +7,26 @@
 #include <rex/logging.h>
 #include <rex/ppc/context.h>
 
+std::unique_ptr<rex::ui::AchievementNotificationDialog>
+OvergApp::CreateAchievementNotificationDialog() {
+  if (!toasts_ && imgui_drawer() && immediate_drawer() && runtime() && runtime()->kernel_state()) {
+    toasts_ = std::make_shared<AchievementToasts>(app_context(), imgui_drawer(), immediate_drawer(),
+                                                runtime());
+    toast_listener_ = achievements().RegisterNotificationCallback(
+        [toasts = toasts_](const rex::system::AchievementEvent& event) { toasts->Notify(event); });
+  }
+  // The port creates the SDK dialog on demand on the UI thread.
+  return nullptr;
+}
+
+void OvergApp::OnShutdown() {
+  if (toasts_) {
+    toasts_->StopOnUIThread();
+    achievements().UnregisterCallback(toast_listener_);
+    toasts_.reset();
+  }
+}
+
 void OvergApp::OnCreateDialogs(rex::ui::ImGuiDrawer* drawer) {
   keyboard_.Install(drawer->GetIO().Ctx, [this]() -> std::optional<uint16_t> {
     if (!runtime() || !window()->HasFocus()) {

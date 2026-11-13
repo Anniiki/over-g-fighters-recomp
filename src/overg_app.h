@@ -7,6 +7,7 @@
 #include <filesystem>
 #include <rex/rex_app.h>
 
+#include "achievement_toasts.h"
 #include "gamepad_keyboard.h"
 
 class OvergApp : public rex::ReXApp {
@@ -31,6 +32,8 @@ class OvergApp : public rex::ReXApp {
   }
 
   void OnCreateDialogs(rex::ui::ImGuiDrawer* drawer) override;
+  std::unique_ptr<rex::ui::AchievementNotificationDialog> CreateAchievementNotificationDialog() override;
+  void OnShutdown() override;
 
   void OnPreSetup(rex::RuntimeConfig& config) override {
     if (config.gpu_plugin.empty()) {
@@ -40,4 +43,6 @@ class OvergApp : public rex::ReXApp {
 
  private:
   GamepadKeyboard keyboard_;
+  std::shared_ptr<AchievementToasts> toasts_;
+  rex::system::AchievementListenerHandle toast_listener_ = 0;
 };
