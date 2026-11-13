@@ -2,7 +2,15 @@
 
 Over G Fighters Recomp is a native Windows PC port in development. It uses the ReXGlue SDK to translate the Xbox 360 PowerPC executable into C++ ahead of time. Each player supplies their own copy of the supported disc.
 
-**Status on November 13, 2026.** On a fresh Beginner profile, the native Windows x64 build plays the opening movie, enters the first Scenario mission and launches the aircraft from the carrier. A virtual Xbox 360 controller operated the menus, throttle, camera and pause screen. The test used the Windows keyboard for pilot-name entry. Mission completion and save persistence are still under test. [Build procedure and test results](docs/first-boot.md#first-scenario-launch)
+**Status on November 13, 2026.** On a fresh Beginner profile, the native Windows x64 build plays the opening movie, enters the first Scenario mission and launches the aircraft from the carrier. A virtual Xbox 360 controller operated the menus, throttle, camera and pause screen. The test used the Windows keyboard for pilot-name entry. A cold restart recovered the initial pilot save. Mission completion and recovery of completed progress are still under test. [Build procedure and test results](docs/first-boot.md#first-scenario-launch)
+
+## Play with a controller
+
+After [building the port](docs/first-boot.md#reproduce-the-build), connect your Xbox-compatible controller and double-click [play.cmd](play.cmd). The launcher uses XInput and stores your campaign data in `%LOCALAPPDATA%\Over G Fighters Recomp`. Keep the same profile for **Load Game** after restarting. For an SDL-compatible controller, launch `.\play.cmd sdl` from the checkout.
+
+1. Press Menu (Start) to skip the opening movie, then press it again at the title. On a new profile, confirm creation of the game data with A.
+2. Choose **New Game**, a difficulty and a save slot. Enter your pilot name with the Windows keyboard and confirm the dialog. Save, then choose **Scenario** in Contents.
+3. In flight, use the left stick for pitch and roll, RB and LB for thrust, the triggers for rudder, the right stick button for camera view and Start to pause. The first Scenario mission opens on the carrier.
 
 ## Project goal
 

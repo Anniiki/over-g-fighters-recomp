@@ -84,3 +84,11 @@ The Beginner route opened the pilot-name dialog. The test entered a name with th
 Selecting Scenario showed the controller loading screen, a city and a carrier group. The next scene showed the player's cockpit on the carrier, with a visible HUD, deck, radar and launch clearance from the carrier operator. The D3D12 log reported repeated empty resolve regions during the preceding menu. Mission success, radio audio fidelity and recovery of completed progress require further tests.
 
 Increasing thrust with the controller's right bumper started the launch. The deck moved beneath the aircraft and the HUD instruction changed from increasing thrust to increasing altitude. The right stick button changed the camera. Start opened the pause menu with a tactical map, and the player could return to the flight and switch to an exterior view.
+
+### Cold restart before the first mission clear
+
+The process used for the first takeoff exited. A new process loaded the same private profile using the main menu's Load Game option. Slot 01 showed the saved pilot name, the Greenhorn class and `Area1(Beginner)/00`. The title confirmed the load and returned to the campaign. This test recovered the initial save. Saving and recovering a completed mission remains open.
+
+### Opening audio and video on a shared clock
+
+In the second launch, the window frames and audio captured from the game process used Windows performance-counter timestamps. At movie positions 0.400 and 3.436 seconds, the matched audio led the matched picture by approximately 18 and 3 ms respectively. The video sampling uncertainty is up to one source frame (33.4 ms), with up to 2 ms per accepted audio packet. Both observations are consistent with synchronization to within a frame. The movie was skipped on this run, so it did not measure absolute synchronization through the ending.
