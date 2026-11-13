@@ -2,7 +2,7 @@
 
 Over G Fighters Recomp is a native Windows PC port in development. It uses the ReXGlue SDK to translate the Xbox 360 PowerPC executable into C++ ahead of time. Each player supplies their own copy of the supported disc.
 
-**Status on November 13, 2026.** The native Windows x64 build plays the opening movie with its original audio and reaches the title screen. On a second fresh profile, pressing Start on a virtual Xbox 360 controller skipped the movie and reached the same screen. Campaign play and save persistence are still under test. [Build procedure and test results](docs/first-boot.md#startup-tests)
+**Status on November 13, 2026.** The native Windows x64 build plays the opening movie with its original audio. A virtual Xbox 360 controller can skip the movie, create game data, navigate the main menu and select New Game to reach the difficulty screen. Mission completion and save persistence are still under test. [Build procedure and test results](docs/first-boot.md#startup-tests)
 
 ## Project goal
 
