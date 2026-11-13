@@ -33,6 +33,10 @@ In one foreground D3D12 menu recording, 7,671 presentations over 35.2 seconds av
 
 In the same segment the display-change interval reached 7.73 ms at p99 and 12.96 ms at maximum. The full recording reported an ETW overflow warning. The result describes this menu window. Test the reported stutter in flight as a separate case, and record the distribution, mission-clock rate and controller response before attributing it to a particular subsystem.
 
+## Empty GPU resolve rectangles
+
+An optional D3D12 plugin handles Xenos resolve rectangles with zero covered pixels. Its register tests cover pixel copies and color and depth clears. [Build procedure and paired run results](empty-resolve.md)
+
 ## Idle achievement notifications
 
 ReXGlue 0.10.1 attaches the achievement notification dialog at startup. Its UI drawer requests another paint while any dialog is attached, even when the notification queue is empty. Over G Fighters now attaches the standard dialog when a notification arrives and detaches it when its queue drains. Game refresh, the D3D12 presentation flags and the external overlay settings remain at their original values. A headless integration check posted two synthetic notifications from a worker thread. Each rendered for about 4.5 seconds, in order, and the idle drawer stopped emitting geometry. A later notification reattached it. [SDK UI redraw loop](https://github.com/rexglue/rexglue-sdk/blob/bd833a2ab69d305f99ddf57418fc38ffec8af93d/src/ui/imgui_drawer.cpp#L436-L445) and [SDK toast queue](https://github.com/rexglue/rexglue-sdk/blob/bd833a2ab69d305f99ddf57418fc38ffec8af93d/src/ui/overlay/achievement_toast.cpp#L27-L53)
