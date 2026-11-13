@@ -1,10 +1,37 @@
 # Reference XEX SHA-256: 51cc8b46170e7e965a9a4655727c98e7c9e83abc73a70aae8cc156d26edef453
+# The image decoder saves its continuation in 0x82472840. Its error handler
+# at 0x82470910 restores that continuation across translated stack frames.
+setjmp_address = 0x825F35C0
+longjmp_address = 0x825F34A0
+
 # Emit a marker inside the translated entrypoint, after its first instruction.
 [[midasm_hook]]
 address = 0x8235EBA8
 name = "OvergTraceGuestEntry"
 after_instruction = true
 
+# ReXGlue 0.10.1 dispatches this guest callback from a host audio thread.
+[[midasm_hook]]
+address = 0x824B5EF0
+name = "OvergInitAudioFpscr"
+registers = ["fpscr"]
+
 # The SDK reports a direct branch here from 0x824B4FCC during validation.
 [functions]
 0x824AA1F0 = {}
+# The virtual call at 0x824B7690 uses slot +8. This leaf ends with blr.
+0x824A95A8 = { size = 28 }
+# 0x8229BAB8 loads this callback from 0x8204DCDC for the call at 0x823210E4.
+0x8231B990 = { size = 16 }
+# The initializer at 0x82488BE8 installs slot +16 for the call at 0x8248EC08.
+0x82488BD0 = { size = 24 }
+
+# Slots in the table at 0x8207BAC0. Each adjusts the object pointer by
+# -16 and tail-branches to an implementation. The last slot runs after the logos.
+0x824B5280 = { size = 8 }
+0x824B5288 = { size = 8 }
+0x824B5290 = { size = 8 }
+0x824B52B0 = { size = 8 }
+0x824B52B8 = { size = 8 }
+0x824B52C8 = { size = 8 }
+0x824B52D8 = { size = 8 }

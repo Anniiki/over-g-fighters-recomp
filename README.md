@@ -2,7 +2,7 @@
 
 Over G Fighters Recomp is a native Windows PC port in development. It uses the ReXGlue SDK to translate the Xbox 360 PowerPC executable into C++ ahead of time. Each player supplies their own copy of the supported disc.
 
-**Status on November 13, 2026.** The Windows x64 executable reaches translated game code at `0x8235EBA8`. It initializes the graphics and audio paths, then stops before the menu on an unregistered guest target at `0x824A95A8`. There is no playable release. [Build and boot evidence](docs/first-boot.md)
+**Status on November 13, 2026.** A locally built Windows x64 executable renders the copyright, Space Imaging, Taito and Ubisoft screens on a fresh profile. The opening movie, responsive menus and campaign still need end-to-end verification. [Build procedure and test results](docs/first-boot.md)
 
 ## Project goal
 

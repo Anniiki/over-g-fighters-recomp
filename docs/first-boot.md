@@ -1,6 +1,6 @@
 # First native boot on Windows
 
-On November 13, 2026, two locally compiled Windows x64 executables entered translated game code at `0x8235EBA8`. Both stopped on the same unregistered guest address, `0x824A95A8`, before reaching the menu.
+On November 13, 2026, two independent Windows x64 builds entered translated game code at `0x8235EBA8`. Their first failure at `0x824A95A8` provided the starting point for the subsequent [startup tests](#startup-tests).
 
 ## Reproduce the build
 
@@ -28,7 +28,7 @@ On November 13, 2026, two locally compiled Windows x64 executables entered trans
 
    The script checks the XEX size and SHA-256, selects the Visual Studio x64 environment, runs code generation and links the host with the matching SDK. The default output contains `overg.exe`, `rexruntimerd.dll`, `rexgpu-xenosrd.dll` and `TracyClientrd.dll`. Keep these files together.
 
-5. Run a boot test with a new private profile. The current executable exits during startup. Trace logging below captures the first successful archive opens. Use a fresh output directory for a comparison run.
+5. Run a boot test with a new private profile. Trace logging captures the first successful archive opens. Use a fresh output directory for a comparison run.
 
    ```powershell
    $game = (Resolve-Path ../private/game).Path
@@ -39,7 +39,7 @@ On November 13, 2026, two locally compiled Windows x64 executables entered trans
    Select-String -LiteralPath "$proof/boot.log" -Pattern 'entered recompiled','NtCreateFile','unregistered function'
    ```
 
-## Observed results
+## Initial build at 492e478
 
 | Check | Evidence |
 | --- | --- |
@@ -50,4 +50,15 @@ On November 13, 2026, two locally compiled Windows x64 executables entered trans
 | First file access | In the second run, guest `NtCreateFile` requests for `game:\test.IDX` and `game:\test.000` both returned success. D3D12 initialized on the reference Radeon RX 6950 XT and the guest registered an audio render client. |
 | Repeatable stop | Each executable exited on its own with Windows status `0xC0000409`. The last runtime diagnostic reported an invalid or unregistered function at guest address `0x824A95A8`. The menu, movie, audio playback and gameplay remain unverified. |
 
-The two local executable hashes differ. The reproducibility check covers regeneration, compilation and the observed runtime behavior. The failing address lies in an executable guest page, directly after a terminal branch at `0x824A95A4` and 32 bytes before the next registered function. The next debugging step is to identify the caller and inspect that interval before adding a translation hint.
+The two local executable hashes differ. The reproducibility check covers regeneration, compilation and the observed runtime behavior.
+
+## Startup tests
+
+These tests use the USA/Europe executable identified by SHA-256 in the [inventory](inventory.md). Each row describes an observed failure or a test of a change in the [title configuration](../config/entry.toml).
+
+| Site | Observation |
+| --- | --- |
+| Indirect calls at `0x824B7690`, `0x823210E4` and `0x8248EC08` | Separate runs stopped at three unregistered callbacks. The guest call sites, function pointers and instruction boundaries established the entries at `0x824A95A8`, `0x8231B990` and `0x82488BD0`. Registering each target let the next run pass its failing call. |
+| Image decoder | The decoder at `0x82472840` saves a continuation. The error handler at `0x82470910` restores it when the decoder rejects input. Configuring the guest setjmp and longjmp pair let the title resume image loading. A cold start then displayed the copyright, Space Imaging, Taito and Ubisoft screens. |
+| Transition after Ubisoft | The callback at `0x824B52D8` adjusts the object pointer and branches to `0x824B5150`. Registering the missing two-instruction callbacks from the same table let a fresh run pass the previous stop and create another D3D12 graphics pipeline. |
+| Audio mixing | The Windows audio worker raised a floating-point inexact-result exception in translated function `0x824C2CB8`. ReXGlue initializes the floating-point context for regular guest threads but omits it on the host thread used for this callback. Initializing that context at `0x824B5EF0` let the movie play. A window capture matched the local disc video at 1.5, 3.5, 5.5 and 7.5 seconds. A separate four-second capture of the game process during the movie contained audio. |
