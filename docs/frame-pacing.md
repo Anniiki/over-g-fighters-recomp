@@ -21,9 +21,11 @@ python scripts/summarize-presentmon.py "$evidence\menu.csv" `
     --stderr "$evidence\menu.stderr" --pid $gamePid
 ```
 
-If the capture includes a lead-in or a scene transition, pass `--start-qpc` and `--end-qpc` in raw `TimeInQPC` ticks. The range includes the first tick and excludes the last. To convert timestamps reported in seconds or nanoseconds, use the machine's performance counter frequency and the same QPC origin. Keep UTC markers alongside the QPC values so that an external observation can identify the scene.
+If the capture includes a lead-in or a scene transition, pass `--start-qpc` and `--end-qpc` in raw QPC ticks. PresentMon names this column `QPCTime` with `--v1_metrics` and `TimeInQPC` in its default format. The range includes the first tick and excludes the last. To convert timestamps reported in seconds or nanoseconds, use the machine's performance counter frequency and the same QPC origin. Keep UTC markers alongside the QPC values so that an external observation can identify the scene.
 
 The script produces a JSON group for each application name, PID, swap chain and presentation mode. It reports p50, p95, p99, p99.9 and the maximum interval in milliseconds. Thresholds are strict. A 25 ms observation does not count toward `above_25_ms`. The percentage below 1 ms uses the number of valid presentation intervals as its denominator. Blank and `NA` entries count as missing. Measured zeroes remain in the distribution and have their own count.
+
+In the legacy CSV, a frame marked `Dropped=1` still contributes its submission interval. Its display interval counts as missing because the frame never reached the display. [PresentMon 2.6.0 display metrics](https://github.com/GameTechDev/PresentMon/blob/v2.6.0/IntelPresentMon/CommonUtilities/mc/MetricsCalculatorDisplay.cpp)
 
 Use `MsBetweenPresents` for application submission intervals and `MsBetweenDisplayChange` for available display intervals. Record both with the count of valid observations. Select the swap chain that renders the game and report any change in presentation mode. Read the capture diagnostics. Warnings about access and lost ETW events have separate implications. An overflow warning applies to the recording as a whole and can affect extreme percentiles. Where possible, repeat the capture and compare successive `TimeInQPC` differences with the corresponding presentation intervals.
 

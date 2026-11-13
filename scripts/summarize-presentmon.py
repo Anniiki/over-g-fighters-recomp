@@ -38,10 +38,16 @@ def read_groups(path, start_qpc, end_qpc, pid):
     counts = defaultdict(int)
     with path.open(encoding="utf-8-sig", newline="") as src:
         reader = csv.DictReader(src)
-        required = set(GROUP + METRICS)
+        columns = set(reader.fieldnames or ())
+        legacy = "msBetweenPresents" in columns
+        metrics = ("msBetweenPresents", "msBetweenDisplayChange") if legacy else METRICS
+        qpc = "QPCTime" if legacy else "TimeInQPC"
+        required = set(GROUP + metrics)
+        if legacy:
+            required.add("Dropped")
         if start_qpc is not None or end_qpc is not None:
-            required.add("TimeInQPC")
-        missing = required - set(reader.fieldnames or ())
+            required.add(qpc)
+        missing = required - columns
         if missing:
             raise ValueError("Missing CSV columns: " + ", ".join(sorted(missing)))
         for row in reader:
@@ -50,14 +56,17 @@ def read_groups(path, start_qpc, end_qpc, pid):
             if pid is not None and row["ProcessID"].strip() != str(pid):
                 continue
             if start_qpc is not None or end_qpc is not None:
-                tick = int(row["TimeInQPC"])
+                tick = int(row[qpc])
                 if (start_qpc is not None and tick < start_qpc) or (end_qpc is not None and tick >= end_qpc):
                     continue
             key = tuple(row[field] for field in GROUP)
             counts[key] += 1
-            for field, values in zip(METRICS, groups[key]):
+            for field, values in zip(metrics, groups[key]):
                 text = row[field].strip()
                 if not text or text.upper() == "NA":
+                    continue
+                # V1 writes a numeric placeholder for a frame that never reached the display.
+                if legacy and field == "msBetweenDisplayChange" and row["Dropped"].strip() == "1":
                     continue
                 value = float(text)
                 if not math.isfinite(value) or value < 0:
@@ -93,8 +102,8 @@ def main():
     cli.add_argument("csv", type=Path)
     cli.add_argument("--stderr", type=Path, help="Saved PresentMon diagnostic log")
     cli.add_argument("--pid", type=int)
-    cli.add_argument("--start-qpc", type=int, help="First included TimeInQPC tick")
-    cli.add_argument("--end-qpc", type=int, help="First excluded TimeInQPC tick")
+    cli.add_argument("--start-qpc", type=int, help="First included QPC tick")
+    cli.add_argument("--end-qpc", type=int, help="First excluded QPC tick")
     args = cli.parse_args()
     if args.start_qpc is not None and args.end_qpc is not None and args.end_qpc <= args.start_qpc:
         cli.error("--end-qpc must be greater than --start-qpc")
