@@ -6,6 +6,8 @@
 
 #include <rex/rex_app.h>
 
+#include "gamepad_keyboard.h"
+
 class OvergApp : public rex::ReXApp {
  public:
   using rex::ReXApp::ReXApp;
@@ -17,9 +19,14 @@ class OvergApp : public rex::ReXApp {
   }
 
  protected:
+  void OnCreateDialogs(rex::ui::ImGuiDrawer* drawer) override;
+
   void OnPreSetup(rex::RuntimeConfig& config) override {
     if (config.gpu_plugin.empty()) {
       config.gpu_plugin = "xenos";
     }
   }
+
+ private:
+  GamepadKeyboard keyboard_;
 };

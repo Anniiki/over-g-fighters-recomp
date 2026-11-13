@@ -12,6 +12,7 @@ include(generated/rexglue.cmake)
 
 # Sources
 set(OVERG_SOURCES
+    src/gamepad_keyboard.cpp
     src/language.cpp
     src/main.cpp
 )

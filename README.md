@@ -9,7 +9,7 @@ Over G Fighters Recomp is a native Windows PC port in development. It uses the R
 After [building the port](docs/first-boot.md#reproduce-the-build), connect your Xbox-compatible controller and double-click [play.cmd](play.cmd). The launcher uses XInput and stores your campaign data in `%LOCALAPPDATA%\Over G Fighters Recomp`. Keep the same profile for **Load Game** after restarting. For an SDL-compatible controller, launch `.\play.cmd sdl` from the checkout.
 
 1. Press Menu (Start) to skip the opening movie, then press it again at the title. On a new profile, confirm creation of the game data with A.
-2. Choose **New Game**, a difficulty and a save slot. Enter your pilot name with the Windows keyboard and confirm the dialog. Save, then choose **Scenario** in Contents.
+2. Choose **New Game**, a difficulty and a save slot. In the pilot-name dialog, move with the D-pad and press A to type. Use Y for upper or lower case, X to delete and Menu (Start) to confirm. B cancels. You can also type with the Windows keyboard and click OK. Save, then choose **Scenario** in Contents.
 3. In flight, use the left stick for pitch and roll, RB and LB for thrust, the triggers for rudder, the right stick button for camera view and Start to pause. The first Scenario mission opens on the carrier.
 
 ## Project goal
