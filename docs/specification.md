@@ -32,6 +32,8 @@ The retail manual divides Scenario into eight areas. A main mission clears its a
 
 Test menu text, subtitles and speech separately. Use one fresh profile for each console language. The port passes the SDK setting `--user_language` to the game's language query. Values 1, 3, 4 and 5 select English, German, French and Spanish respectively at the API. Record what the title actually displays and plays for each value, including any in-game language settings and their persistence after restart.
 
+The supported disc contains 1,045 menu entries, 665 briefing entries, 698 debriefing entries and 78 mission descriptions in each of those four languages. These counts are indexed entries, so repeated phrases may appear. The Central Africa area briefing has five populated lines in all four tables. Some text is part of the artwork, including the area selector and the flight-time label. The disc's 35 paired dialogue banks are labeled English and Japanese. The French post-clear test confirmed the area name, menu prompts and briefing text on screen. [In-game observations](first-boot.md#cold-restart-after-clearing-area-1)
+
 ## Evidence and distribution
 
 Use an Xbox 360 running the reference edition for fidelity measurements when available. Record disc revision, scene, controller settings and capture conditions. A pinned Xenia Canary run can supply a provisional comparison. Label measurements by source and keep console parity open until a console comparison is available.

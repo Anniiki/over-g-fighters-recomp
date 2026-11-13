@@ -89,15 +89,23 @@ One carrier clearance was identified independently in both picture and sound. Tw
 
 ### Cold restart before the first mission clear
 
-The process used for the first takeoff exited. A new process loaded the same private profile using the main menu's Load Game option. Slot 01 showed the saved pilot name, the Greenhorn class and `Area1(Beginner)/00`. The title confirmed the load and returned to the campaign. This test recovered the initial save. Saving and recovering a completed mission remains open.
+The process used for the first takeoff exited. A new process loaded the same private profile using the main menu's Load Game option. Slot 01 showed the saved pilot name, the Greenhorn class and `Area1(Beginner)/00`. The title confirmed the load and returned to the campaign. The [post-clear restart](#cold-restart-after-clearing-area-1) used a later save.
 
 ### Physical controller
 
 A player then started a separate fresh profile using [play.cmd](../play.cmd) and a physical USB Xbox-compatible controller. Windows exposed the pad at XInput index 1. Start and A were followed by visible transitions through the title, game data creation and the pilot slot screen. In Scenario the player took off from the carrier. The HUD showed 209 kt and 810 ft with the landing gear reminder, then 296 kt and 1,140 ft in a later exterior view. Frame captures and physical stick readings were recorded while the game had focus. This run establishes player-one operation with an actual controller.
 
-The title displayed Mission Complete. The debriefing identified Scenario 1, *Intercept the bogeys*, and reported 1 min 41.43 s of flight time, five targets, 6,600 target points, 3,000 technical points, zero penalty and rank A (9,600 total). The player continued through the replay save confirmation to the next briefing. The process then stopped at the unregistered guest function `0x820C22E0`. The disk holds an updated slot 01. A cold reload and return to the next sortie will establish which progress was retained.
+The title displayed Mission Complete. The debriefing identified Scenario 1, *Intercept the bogeys*, and reported 1 min 41.43 s of flight time, five targets, 6,600 target points, 3,000 technical points, zero penalty and rank A (9,600 total). The player continued through the replay save confirmation to the next briefing. The process then stopped at the unregistered guest function `0x820C22E0`.
 
-The missing function is a seven-instruction leaf in slot `+0x20` of the table at `0x8200701C`. It advances two fields by the supplied offset and returns. The [translation hint](../config/entry.toml) registers its 28 bytes. The regenerated build includes all twelve entries in this table.
+In this run, 104.6 to 108.6 seconds of real time elapsed between the opening carrier camera switching to the cockpit and the final flight HUD switching to the closing cinematic. The Mission Complete banner appeared 112.5 to 116.6 seconds after the cockpit appeared. These intervals use the Windows capture timestamps of the last frame before and first frame after each transition, sampled about two seconds apart. The debriefing's flight timer uses its own start and stop conditions. A reference run is needed to compare game speed.
+
+The missing function is a seven-instruction leaf in slot `+0x20` of the table at `0x8200701C`. It advances two fields by the supplied offset and returns. The [translation hint](../config/entry.toml) registers its 28 bytes. The regenerated build includes all twelve entries in this table. An isolated test using the retail XEX and regenerated code exercised three translated callers, including a write and read of 3, 6 and 39 bytes. All 17 checks passed, including bounds and cursor updates.
+
+### Cold restart after clearing Area 1
+
+After the player's process exited, the test copied the complete save container and verified all seven files against the snapshot. A fresh process opened the copy with French selected and an SDL controller. In Load Game, slot 01 showed Area 2 on Beginner, one aircraft and one minute of total flight time. Loading that slot opened Central Africa. The new build advanced past the globe where the earlier process had stopped and displayed the area briefing on the operations map. The test selected mission 1.1A, the F-14A Tomcat and wingman Leon. The game displayed its control guide, the two-aircraft cinematic and then the cockpit, HUD and radar.
+
+The save menu, area name, speaker dialogue, aircraft description and selection prompts appeared in French. The decorative newspaper columns around these menus remained in English.
 
 ### Opening audio and video on a shared clock
 

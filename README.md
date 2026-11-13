@@ -2,7 +2,7 @@
 
 Over G Fighters Recomp is a native Windows PC port in development. It uses the ReXGlue SDK to translate the Xbox 360 PowerPC executable into C++ ahead of time. Each player supplies their own copy of the supported disc.
 
-**Status on November 13, 2026.** A player used a physical Xbox-compatible controller to finish the first Beginner mission, *Intercept the bogeys*, with rank A. The next briefing exposed a missing translated function. The new build registers that function. The complete campaign and recovery of a cleared mission after restarting are still under test. [Build procedure and test results](docs/first-boot.md#physical-controller)
+**Status on November 13, 2026.** A player used a physical Xbox-compatible controller to finish the first Beginner mission, *Intercept the bogeys*, with rank A. After a cold restart, the port loaded the cleared save, displayed the Central Africa briefing in French and reached the F-14A cockpit in the next area. Testing continues through the offline campaign. [Build procedure and test results](docs/first-boot.md#cold-restart-after-clearing-area-1)
 
 ## Play with a controller
 
