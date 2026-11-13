@@ -43,7 +43,7 @@ On November 13, 2026, two independent Windows x64 builds entered translated game
 
 ## Check the SDK without a disc
 
-The Windows SDK check runs on a hosted Windows Server 2022 machine. It verifies the official LLVM and ReXGlue downloads, compiles and links the project's language import, then checks that the SDK setting reaches the guest register for all four supported console languages. Full game builds and campaign tests require the player's files. [Workflow](../.github/workflows/windows-sdk.yml)
+The Windows SDK check runs on a hosted Windows Server 2022 machine. It verifies the official LLVM and ReXGlue downloads, compiles and links the project's language import, then checks that the SDK setting reaches the guest register for all four supported console languages. The first run passed for English, German, French and Spanish. Full game builds and campaign tests require the player's files. [Hosted test log](https://github.com/Anniiki/over-g-fighters-recomp/actions/runs/43402438995/job/131808360508)
 
 To run the same compiler and runtime check locally, use PowerShell 7.4 or newer with the tools from steps 2 and 3.
 
@@ -117,6 +117,25 @@ After the player's process exited, the test copied the complete save container a
 
 The save menu, area name, speaker dialogue, aircraft description and selection prompts appeared in French. The decorative newspaper columns around these menus remained in English.
 
+The player subsequently relaunched from the standard XInput launcher with the per-profile `user_language = 4` setting. The physical controller opened the French title menu and Load Game screen, where the original slot 01 displayed the same Area 2 progress.
+
+With French selected, audio from three briefing lines matched entries 0, 13 and 37 of the English briefing voice bank. The respective correlations were 0.970, 0.861 and 0.947. Each matched entry also had the index specified by its on-screen text record. These lines cover the president's address, the area briefing and the assignment for mission 1.1A.
+
+### Mission failure and retry in Area 2
+
+A ground impact in mission 1.1A triggered the French mission failure banner and the flight replay. Selecting Retry in the replay pause menu restarted the two-aircraft cinematic and returned to the F-14A cockpit with the HUD, radar and three targets displayed. After closing the process, all five campaign slots, the save header and its thumbnail still matched their pre-test SHA-256 hashes. The only new files under the test profile were two shader caches.
+
 ### Opening audio and video on a shared clock
 
 In the second launch, the window frames and audio captured from the game process used Windows performance-counter timestamps. At movie positions 0.400 and 3.436 seconds, the matched audio led the matched picture by approximately 18 and 3 ms respectively. The video sampling uncertainty is up to one source frame (33.4 ms), with up to 2 ms per accepted audio packet. Both observations are consistent with synchronization to within a frame. The movie was skipped on this run, so it did not measure absolute synchronization through the ending.
+
+### Comparison with Xenia Canary
+
+Xenia Canary `20106f8` ran the same verified disc on the same Windows PC, with D3D12 at native scale. The French reference session played the opening without controller input through the last matched frame at movie time 111.878 s. The test ended before the title screen. Comparing each captured picture to the disc movie gave the following rates. [Reference build](https://github.com/xenia-canary/xenia-canary-releases/releases/tag/20106f8)
+
+| Playback | Matched moving frames | Elapsed capture time | Movie seconds per capture second |
+| --- | ---: | ---: | ---: |
+| Windows native port | 38 | 116.545 s | 1.0000633 |
+| Xenia Canary, D3D12 | 51 | 111.413 s | 1.0000317 |
+
+The reference audio followed the captured video by a median 38.4 ms across 49 matched samples. The uncertainty from sampling the video is up to 33.4 ms. The two native shared-clock samples above are too few to establish a persistent difference in synchronization. Actual Xbox 360 output and game simulation speed still require separate measurements.
