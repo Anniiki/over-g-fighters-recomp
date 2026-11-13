@@ -1,0 +1,10 @@
+# Reference XEX SHA-256: 51cc8b46170e7e965a9a4655727c98e7c9e83abc73a70aae8cc156d26edef453
+# Emit a marker inside the translated entrypoint, after its first instruction.
+[[midasm_hook]]
+address = 0x8235EBA8
+name = "OvergTraceGuestEntry"
+after_instruction = true
+
+# The SDK reports a direct branch here from 0x824B4FCC during validation.
+[functions]
+0x824AA1F0 = {}

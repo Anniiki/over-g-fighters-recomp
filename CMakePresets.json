@@ -1,0 +1,21 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": { "major": 3, "minor": 25, "patch": 0 },
+  "configurePresets": [
+    {
+      "name": "win-amd64-relwithdebinfo",
+      "displayName": "Windows x64 with debug information",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CMAKE_CXX_COMPILER": "clang++",
+        "REXSDK_VERSION": "0.10.1"
+      }
+    }
+  ],
+  "buildPresets": [
+    { "name": "win-amd64-relwithdebinfo", "configurePreset": "win-amd64-relwithdebinfo" }
+  ]
+}

@@ -1,0 +1,9 @@
+[project]
+name = "overg"
+sdk_version = "0.10.1"
+game_root = "../private/game"
+
+[entrypoint]
+file_path = "../private/game/default.xex"
+out_directory_path = "generated/default"
+includes = ["config/entry.toml"]
