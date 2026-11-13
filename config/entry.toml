@@ -35,3 +35,10 @@ registers = ["fpscr"]
 0x824B52B8 = { size = 8 }
 0x824B52C8 = { size = 8 }
 0x824B52D8 = { size = 8 }
+
+# After the idle title screen the demo loads a scene using this switch.
+# The four consecutive pointers start immediately after the bctr.
+[[switch_tables]]
+address = 0x825C70B0
+register = 11
+labels = [0x825C70C4, 0x825C70FC, 0x825C7104, 0x825C710C]

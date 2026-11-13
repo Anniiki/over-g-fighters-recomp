@@ -26,6 +26,12 @@ The first release target covers the offline campaign, local profiles and saves. 
 | Save and progress | Complete the mission, return to the menu, exit the process, relaunch and load the same profile. | Mission completion and unlocked progress survive the restart. The next available mission loads. |
 | Languages and campaign | Check the UI, subtitles and voice selection in each language exposed on the reference disc. Play every required offline campaign mission through the ending. | A coverage table records build, language, mission, result and remaining defects. The first full campaign release requires a complete passing route. |
 
+### Campaign route
+
+The retail manual divides Scenario into eight areas. A main mission clears its area. On a fresh profile the first mission omits the usual selection and briefing screens. Use that first sortie for the new-player test and a later sortie to check mission, aircraft, wingman and equipment selection. Record the chosen difficulty and route through each area. At the end, capture the last success screen, the return to an interactive screen and the campaign state after a cold restart. [Xbox 360 retail manual, printed pages 20 to 22](https://www.gamesdatabase.org/Media/SYSTEM/Microsoft_Xbox_360//Manual/formated/Over_G_Fighters_-_2006_-_Ubisoft.pdf#page=12)
+
+Test menu text, subtitles and speech separately. Use one fresh profile for each console language. The port passes the SDK setting `--user_language` to the game's language query. Values 1, 3, 4 and 5 select English, German, French and Spanish respectively at the API. Record what the title actually displays and plays for each value, including any in-game language settings and their persistence after restart.
+
 ## Evidence and distribution
 
 Use an Xbox 360 running the reference edition for fidelity measurements when available. Record disc revision, scene, controller settings and capture conditions. A pinned Xenia Canary run can supply a provisional comparison. Label measurements by source and keep console parity open until a console comparison is available.
