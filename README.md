@@ -8,6 +8,8 @@ Over G Fighters Recomp is a native Windows PC port in development. It uses the R
 
 After [building the port](docs/first-boot.md#reproduce-the-build), connect your Xbox-compatible controller and double-click [play.cmd](play.cmd). The launcher uses XInput and stores your campaign data in `%LOCALAPPDATA%\Over G Fighters Recomp`. Keep the same profile for **Load Game** after restarting. For an SDL-compatible controller, launch `.\play.cmd sdl` from the checkout.
 
+After installing the optional GPU plugin beside `overg.exe`, run `.\play.cmd overg-resolve` for XInput or `.\play.cmd sdl overg-resolve` for SDL. Both use the same player profile. [GPU plugin build instructions](docs/empty-resolve.md#build-and-check)
+
 To set a preferred console language for this player, edit `%LOCALAPPDATA%\Over G Fighters Recomp\overg.toml` and add a top-level line such as `user_language = 4` for French. The other edition languages use 1 for English, 3 for German and 5 for Spanish. The setting applies on the next launch. Menu text, subtitles and spoken dialogue have separate in-game coverage. [Language test scope](docs/specification.md#campaign-route)
 
 A new player profile starts with a copy of `overg.toml` from beside the executable when that file exists. Subsequent settings changes are saved in the player's profile. An existing profile configuration takes precedence.
