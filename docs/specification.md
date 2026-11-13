@@ -35,7 +35,7 @@ Test menu text, subtitles and speech separately. Use one fresh profile for each 
 
 The supported disc contains 1,045 menu entries, 665 briefing entries, 698 debriefing entries and 78 mission descriptions in each of those four languages. These counts are indexed entries, so repeated phrases may appear. The Central Africa area briefing has five populated lines in all four tables. Some text is part of the artwork, including the area selector and the flight-time label. The disc's 35 paired dialogue banks are labeled English and Japanese. The French post-clear test confirmed the area name, menu prompts and briefing text on screen. [In-game observations](first-boot.md#cold-restart-after-clearing-area-1)
 
-With French selected, cockpit subtitles in the first two South America tactical missions showed a warning about anti-aircraft batteries in `km04_01_ag` and an instruction to escort allied transports in `km04_02_aa`. The disc includes English and Japanese voice banks for both missions. Neither flight has an audio recording to verify which language played.
+With French selected, cockpit subtitles in the first two South America tactical missions showed a warning about anti-aircraft batteries in `km04_01_ag` and an instruction to escort allied transports in `km04_02_aa`. The disc includes English and Japanese voice banks for both missions. A 70-second process audio capture during the escort stayed at the 16-bit quantization floor (samples ranged from -1 to +1). The spoken language remains unverified for both flights.
 
 ## Evidence and distribution
 
