@@ -125,6 +125,12 @@ With French selected, audio from three briefing lines matched entries 0, 13 and 
 
 A ground impact in mission 1.1A triggered the French mission failure banner and the flight replay. Selecting Retry in the replay pause menu restarted the two-aircraft cinematic and returned to the F-14A cockpit with the HUD, radar and three targets displayed. After closing the process, all five campaign slots, the save header and its thumbnail still matched their pre-test SHA-256 hashes. The only new files under the test profile were two shader caches.
 
+### Automated clear of Area 2 mission 1.1A
+
+A private Windows QA build loaded a fresh copy of the Beginner Area 2 save, selected mission 1.1A in French and flew the player's F-14A from the cockpit to the success banner without human input. The test pilot used the player-one controller interface. It cycled past other selectable aircraft, selected both Tu-95s in the first group and turned toward the third aircraft when the second group appeared.
+
+The target breakdown listed three Tu-95s for 5,400 points. The final results showed 47.35 seconds of flight time, a 600-point no-damage bonus, zero penalty, rank S and 6,000 total points. The title then awarded the F-16C Fighting Falcon. An earlier diagnostic run with pauses also finished with three Tu-95s and rank S. The regular play launcher still starts the game with the player's controller.
+
 ### Opening audio and video on a shared clock
 
 In the second launch, the window frames and audio captured from the game process used Windows performance-counter timestamps. At movie positions 0.400 and 3.436 seconds, the matched audio led the matched picture by approximately 18 and 3 ms respectively. The video sampling uncertainty is up to one source frame (33.4 ms), with up to 2 ms per accepted audio packet. Both observations are consistent with synchronization to within a frame. The movie was skipped on this run, so it did not measure absolute synchronization through the ending.
