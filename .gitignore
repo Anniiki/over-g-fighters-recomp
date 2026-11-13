@@ -1,0 +1,26 @@
+# Local copies of the disc and executable
+*.[iI][sS][oO]
+*.[xX][eE][xX]
+/game/
+/private/
+/assets/
+/$SystemUpdate/
+*.xwb
+*.wmv
+test.000
+test.IDX
+
+# Outputs from ReXGlue, the compiler and local play tests
+/generated/
+/metadata/
+/out/
+/build/
+/saves/
+/logs/
+*.exe
+*.dll
+*.pdb
+*.log
+*.dmp
+CMakeUserPresets.json
+/.vs/
