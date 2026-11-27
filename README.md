@@ -22,13 +22,17 @@ The original Xbox 360 executable also loaded a copy of this slot in Xenia Canary
 
 After the first Barents Sea optional mission, a test build saved a player replay under a controller-entered name. A cold restart loaded the recording from the original replay menu. All 1,278 input records matched the saved file and played to the end. A separate build from the published alpha.2 archive loaded the same recording through XInput and displayed the 3D replay. Start returned to the replay menu. Both sessions closed normally and preserved the twelve persistent profile files.
 
+## Frame timing
+
 At the stationary load menu, PresentMon recorded 7,199 application frame intervals in 120 seconds. The median was 16.60 ms, the 99th percentile was 18.76 ms and the maximum was 19.89 ms. The window stayed in the foreground on a 2560 x 1440, 160 Hz display in independent flip mode.
 
-The Scenario contents menu still stutters on the same PC. Two 120-second tests in composed flip mode recorded 47 application intervals over 50 ms each, in groups roughly ten seconds apart. The standard Xenos plugin reached 200 ms. A private plugin that treats empty resolve rectangles as no-ops eliminated 24,976 pairs of graphics errors and still reached 184 ms. Across these two runs and the first 78 seconds of a third foreground run, all 32 groups were centered within 0.7 seconds of a multiple of ten seconds after confirming the save slot. The cause of the pauses remains open.
+The Scenario contents menu still stutters on the same PC. Two 120-second tests in composed flip mode recorded 47 application intervals over 50 ms each, in groups roughly ten seconds apart. The standard Xenos plugin reached 200 ms. A private plugin that treats empty resolve rectangles as no-ops eliminated 24,976 pairs of graphics errors and still reached 184 ms. Across these two runs and the first 78 seconds of a third foreground run, all 32 groups were centered within 0.7 seconds of a multiple of ten seconds after confirming the save slot.
 
 A separate SDL run reproduced all twelve predicted groups, each within one second of its expected time after loading the save. The maximum frame interval was 166 ms. Windows used independent flip throughout this run, so the difference in peak duration cannot be attributed to the controller backend alone.
 
-A later two-minute XInput trace recorded 46 frame intervals over 50 ms. All 46 overlapped a wait from the same call in the game's movie player. Matching the animated Scenario preview to individual frames from the disc identified two different ten-second clips across six runs. The effect of restarting a clip on frame timing remains under investigation.
+A later two-minute XInput trace recorded 46 frame intervals over 50 ms. All 46 overlapped a wait from the same call in the game's movie player. Matching the animated Scenario preview to frames from the disc identified two different ten-second clips across six runs.
+
+The game loops seven video previews while the player stays on Scenario. Two 120-second tests used the same private executable, original disc files and animated F-15C preview. Both ran in independent flip mode. With all seven previews looping, 46 frame intervals exceeded 50 ms and the longest reached 169 ms. When the six offscreen previews played once and only Scenario kept looping, nine intervals exceeded 50 ms and the longest reached 134 ms. All nine overlapped a wait from the visible preview. This diagnostic covered a stationary menu. A fix for switching between pages still needs testing.
 
 ## Build on Windows
 
