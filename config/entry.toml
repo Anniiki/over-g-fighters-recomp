@@ -16,6 +16,15 @@ address = 0x824B5EF0
 name = "OvergInitAudioFpscr"
 registers = ["fpscr"]
 
+# Retail network workers all create their sockets through this leaf.
+# With --overg_offline, return the guest's normal disconnected error
+# before the host socket API is called.
+[[midasm_hook]]
+address = 0x82448DA0
+name = "OvergUseOfflineSocketResult"
+registers = ["r3"]
+return_on_true = true
+
 # The SDK reports a direct branch here from 0x824B4FCC during validation.
 [functions]
 # Post-mission briefing callback. Six instructions advance two cursors,

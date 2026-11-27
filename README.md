@@ -38,15 +38,17 @@ cmake --build out/build --target overg
 
 ## Play
 
-From the checkout, run the following in Command Prompt to use the extracted disc, an Xbox controller and the profile used by the earlier Windows launcher.
+From the checkout, run the following in Command Prompt to play Scenario offline with an Xbox controller and the profile used by the earlier Windows launcher.
 
 ```text
-out\build\overg.exe "--game_data_root=%CD%\..\private\game" "--user_data_root=%LOCALAPPDATA%\Over G Fighters Recomp" --input_backend=xinput
+out\build\overg.exe "--game_data_root=%CD%\..\private\game" "--user_data_root=%LOCALAPPDATA%\Over G Fighters Recomp" --input_backend=xinput --overg_offline=true
 ```
 
 For a standalone installation, put the extracted disc in a `game` directory beside `overg.exe`. Copy `rexruntimerd.dll`, `rexgpu-xenosrd.dll` and `TracyClientrd.dll` from the RelWithDebInfo build to the same folder as the executable. The target PC needs the Microsoft Visual C++ v14 x64 runtime. [Microsoft runtime download](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170)
 
 On direct launch the port discovers `game/default.xex` and checks its SHA-256 fingerprint before loading the game. The default Windows profile is `%LOCALAPPDATA%\Over G Fighters Recomp`. If only the earlier standalone SDK profile exists, the port uses it. Explicit game, profile and cache paths take precedence over their respective defaults.
+
+The game starts its networking workers before the title screen. With `--overg_offline=true`, those workers receive the game's network-down error when they request a socket. The default setting uses the original socket path. Multiplayer compatibility is unverified.
 
 Use `--input_backend=sdl` for an SDL controller. Set `user_language = 4` in the profile's `overg.toml` for French, 1 for English, 3 for German or 5 for Spanish. In the pilot-name dialog, the D-pad moves, A types, Y changes case, X deletes, Start confirms and B cancels.
 

@@ -3,9 +3,15 @@
 #include "generated/default/overg_init.h"
 
 #include "overg_app.h"
+#include <rex/cvar.h>
 #include <rex/input/input_system.h>
 #include <rex/logging.h>
 #include <rex/ppc/context.h>
+#include <rex/system/xthread.h>
+
+REXCVAR_DEFINE_BOOL(overg_offline, false, "Network",
+                    "Run the offline campaign without opening game network sockets")
+    .lifecycle(rex::cvar::Lifecycle::kInitOnly);
 
 std::unique_ptr<rex::ui::AchievementNotificationDialog>
 OvergApp::CreateAchievementNotificationDialog() {
@@ -43,6 +49,16 @@ void OvergApp::OnCreateDialogs(rex::ui::ImGuiDrawer* drawer) {
 
 void OvergTraceGuestEntry() {
   REXLOG_INFO("Over G Fighters entered recompiled guest code at 0x8235EBA8");
+}
+
+bool OvergUseOfflineSocketResult(PPCRegister& result) {
+  if (!REXCVAR_GET(overg_offline)) return false;
+  // Match a failed NetDll_socket call on a disconnected network. The retail
+  // workers handle INVALID_SOCKET themselves, including thread cleanup.
+  constexpr uint32_t kWsaNetworkDown = 10050;
+  rex::system::XThread::SetLastError(kWsaNetworkDown);
+  result.u64 = UINT32_MAX;
+  return true;
 }
 
 void OvergInitAudioFpscr(PPCFPSCRRegister& fpscr) {
