@@ -4,7 +4,7 @@ A Windows x64 port of Over G Fighters, written in C++23. ReXGlue statically tran
 
 ## Campaign status
 
-On Beginner, a player finished the opening mission with a physical controller. A cold restart loaded the cleared slot and opened Central Africa. Tests on a copy of that career subsequently cleared the Central Africa and Far East strategic missions. In South America, the save records 7,800 points for the stealth mission and 6,840 for the transport escort. Testing reached the second stage of the strategic VIP escort. A full campaign playthrough and installation on a clean Windows system remain open.
+On Beginner, a player finished the opening mission with a physical controller. A cold restart loaded the cleared slot and opened Central Africa. Tests on a copy of that career subsequently cleared the Central Africa and Far East strategic missions. In South America, the save records 7,800 points for the stealth mission and 6,840 for the transport escort. A strategic VIP escort run reached phase 3. After the mission failed, Retry returned the player to the cockpit. A full campaign playthrough and installation on a clean Windows system remain open.
 
 French menus and cockpit subtitles have been observed. A process audio recording matched an English radio cue in Central Africa with French selected. The spoken language in the Amazon missions is still unverified.
 
@@ -42,7 +42,9 @@ From the checkout, run the following in Command Prompt to use the extracted disc
 out\build\overg.exe "--game_data_root=%CD%\..\private\game" "--user_data_root=%LOCALAPPDATA%\Over G Fighters Recomp" --input_backend=xinput
 ```
 
-For a standalone installation, put the extracted disc in a `game` directory beside `overg.exe`. Copy `rexruntimerd.dll`, `rexgpu-xenosrd.dll` and `TracyClientrd.dll` from the RelWithDebInfo build to the same folder as the executable. On direct launch the port discovers `game/default.xex`. The default Windows profile is `%LOCALAPPDATA%\Over G Fighters Recomp`. If only the earlier standalone SDK profile exists, the port uses it. Explicit game, profile and cache paths take precedence over their respective defaults.
+For a standalone installation, put the extracted disc in a `game` directory beside `overg.exe`. Copy `rexruntimerd.dll`, `rexgpu-xenosrd.dll` and `TracyClientrd.dll` from the RelWithDebInfo build to the same folder as the executable. The target PC needs the Microsoft Visual C++ v14 x64 runtime. [Microsoft runtime download](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170)
+
+On direct launch the port discovers `game/default.xex` and checks its SHA-256 fingerprint before loading the game. The default Windows profile is `%LOCALAPPDATA%\Over G Fighters Recomp`. If only the earlier standalone SDK profile exists, the port uses it. Explicit game, profile and cache paths take precedence over their respective defaults.
 
 Use `--input_backend=sdl` for an SDL controller. Set `user_language = 4` in the profile's `overg.toml` for French, 1 for English, 3 for German or 5 for Spanish. In the pilot-name dialog, the D-pad moves, A types, Y changes case, X deletes, Start confirms and B cancels.
 

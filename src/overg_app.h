@@ -12,6 +12,11 @@
 #include "achievement_toasts.h"
 #include "gamepad_keyboard.h"
 #include "profile_config.h"
+#ifdef _WIN32
+#include <rex/logging.h>
+#include <rex/system.h>
+#include "retail_disc.h"
+#endif
 
 class OvergApp : public rex::ReXApp {
  public:
@@ -24,6 +29,17 @@ class OvergApp : public rex::ReXApp {
   }
 
  protected:
+#ifdef _WIN32
+  bool ConstructRuntime(const rex::PathConfig& paths) override {
+    if (const auto error = RetailDiscError(paths.game_data_root)) {
+      REXLOG_ERROR("{}", *error);
+      rex::ShowSimpleMessageBox(rex::SimpleMessageBoxType::Error, *error);
+      return false;
+    }
+    return rex::ReXApp::ConstructRuntime(paths);
+  }
+#endif
+
   void OnConfigurePaths(rex::PathConfig& paths) override {
     if (paths.game_data_root.empty()) {
       const auto portable = paths.config_path.parent_path() / "game";
