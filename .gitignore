@@ -28,4 +28,13 @@ CMakeUserPresets.json
 /CMakePresets.json
 /scripts/
 /tests/
-/play.cmd
+
+# Local development tools
+*.ps1
+*.psm1
+*.psd1
+*.cmd
+*.bat
+*.py
+*.sh
+/.github/workflows/

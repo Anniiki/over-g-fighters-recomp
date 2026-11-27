@@ -4,9 +4,11 @@ A Windows x64 port of Over G Fighters, written in C++23. ReXGlue statically tran
 
 ## Campaign status
 
-On Beginner, a player finished the opening mission with a physical controller. A cold restart loaded the cleared slot and opened Central Africa. Tests on a copy of that career subsequently cleared the Central Africa and Far East strategic missions. In South America, the save records 7,800 points for the stealth mission and 6,840 for the transport escort. A strategic VIP escort run reached phase 3. After the mission failed, Retry returned the player to the cockpit. A full campaign playthrough and installation on a clean Windows system remain open.
+On Beginner, a player finished the opening mission with a physical controller. A cold restart loaded the cleared slot and opened Central Africa. Tests on a copy of that career subsequently cleared the Central Africa and Far East strategic missions. In South America, the save records 7,800 points for the stealth mission and 6,840 for the transport escort. After one failed strategic VIP escort, Retry returned the player to the cockpit. The second attempt earned 23,040 points and grade B. The game confirmed the save. Restarting the test build and loading that profile opened Area 5, the Barents Sea. A full campaign playthrough and installation on a clean Windows system remain open.
 
 French menus and cockpit subtitles have been observed. A process audio recording matched an English radio cue in Central Africa with French selected. The spoken language in the Amazon missions is still unverified.
+
+On Windows 11 x64 with a Radeon RX 6950 XT, the build instructions below compiled revision `3f0a347` from a fresh GitHub source archive. A graphical build of that revision played the complete opening movie and reached the French title screen. Nineteen samples matched both the picture and the soundtrack to the disc movie, including one at 127.46 seconds. The median audio offset was 12 ms later than the corresponding picture, with a video sampling uncertainty of one movie frame (33 ms).
 
 ## Build on Windows
 
