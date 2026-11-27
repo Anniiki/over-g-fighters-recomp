@@ -4,11 +4,13 @@ A Windows x64 port of Over G Fighters, written in C++23. ReXGlue statically tran
 
 ## Campaign status
 
-On Beginner, a player finished the opening mission with a physical controller. A cold restart loaded the cleared slot and opened Central Africa. Tests on a copy of that career subsequently cleared the Central Africa and Far East strategic missions. In South America, the save records 7,800 points for the stealth mission and 6,840 for the transport escort. After one failed strategic VIP escort, Retry returned the player to the cockpit. The second attempt earned 23,040 points and grade B. The game confirmed the save. Restarting the test build and loading that profile opened Area 5, the Barents Sea. A full campaign playthrough and installation on a clean Windows system remain open.
+On Beginner, a player finished the opening mission with a physical controller. A cold restart loaded the cleared slot and opened Central Africa. Tests on a copy of that career subsequently cleared the Central Africa and Far East strategic missions. In South America, the save records 7,800 points for the stealth mission and 6,840 for the transport escort. After one failed strategic VIP escort, Retry returned the player to the cockpit. The second attempt earned 23,040 points and grade B. The game confirmed the save.
 
-French menus and cockpit subtitles have been observed. A process audio recording matched an English radio cue in Central Africa with French selected. The spoken language in the Amazon missions is still unverified.
+Restarting the test build and loading that profile opened Area 5, the Barents Sea. The first tactical mission earned 7,800 points and grade C. A separate test build based on the [source prerelease](https://github.com/Anniiki/over-g-fighters-recomp/releases/tag/v0.1.0-alpha.1) loaded that checkpoint and entered the second tactical mission offline. The game has displayed its failure and Retry screens there. A full campaign playthrough and installation on a clean Windows system remain open.
 
-On Windows 11 x64 with a Radeon RX 6950 XT, the build instructions below compiled revision `3f0a347` from a fresh GitHub source archive. A graphical build of that revision played the complete opening movie and reached the French title screen. Nineteen samples matched both the picture and the soundtrack to the disc movie, including one at 127.46 seconds. The median audio offset was 12 ms later than the corresponding picture, with a video sampling uncertainty of one movie frame (33 ms).
+French menus and cockpit subtitles have been observed. With French selected, process audio recordings matched English radio dialogue in Central Africa and six English radio cues from the second Barents Sea tactical mission. The spoken language in the Amazon missions is still unverified.
+
+On Windows 11 x64 with a Radeon RX 6950 XT, the build instructions below compiled the `v0.1.0-alpha.1` source revision from a fresh GitHub archive. An earlier build at `3f0a347` played the complete opening movie and reached the French title screen. Nineteen samples matched both the picture and the soundtrack to the disc movie, including one at 127.46 seconds. The median audio offset was 12 ms later than the corresponding picture, with a video sampling uncertainty of one movie frame (33 ms).
 
 ## Build on Windows
 
