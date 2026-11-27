@@ -28,6 +28,8 @@ The Scenario contents menu still stutters on the same PC. Two 120-second tests i
 
 A separate SDL run reproduced all twelve predicted groups, each within one second of its expected time after loading the save. The maximum frame interval was 166 ms. Windows used independent flip throughout this run, so the difference in peak duration cannot be attributed to the controller backend alone.
 
+A later two-minute XInput trace recorded 46 frame intervals over 50 ms. All 46 overlapped a wait from the same call in the game's movie player. Matching the animated Scenario preview to individual frames from the disc identified two different ten-second clips across six runs. The effect of restarting a clip on frame timing remains under investigation.
+
 ## Build on Windows
 
 Use Visual Studio 2022 Build Tools with Desktop development with C++, a Windows SDK, Clang 20.1.8, CMake 3.25 or later, Ninja and the ReXGlue 0.10.1 Windows AMD64 SDK. The tested SDK archive has SHA-256 `26dbcd19e6976a7ad349917bffc58c1a0f21ad43d71a963d16b623c8e70d1f4d`. [LLVM release](https://github.com/llvm/llvm-project/releases/tag/llvmorg-20.1.8) · [ReXGlue release](https://github.com/rexglue/rexglue-sdk/releases/tag/v0.10.1)
