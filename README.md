@@ -20,7 +20,7 @@ A fresh build of `b630f7d` loaded the Area 5 slot through XInput on Windows 11. 
 
 The original Xbox 360 executable also loaded a copy of this slot in Xenia Canary. Both versions showed the same opening French AWACS subtitle in the F-16C cockpit of Barents tactical mission 2. At a common image size of 1280 x 720, six fixed cockpit and HUD details aligned without shifting either image. The comparison covers this opening view. [Xenia Canary reference revision](https://github.com/xenia-canary/xenia-canary/commit/20106f8cd506dd4a005e17b9c947b901b1acafbb)
 
-An audio recording from the Windows port also matched the stereo cockpit ambience in the F-16C sound bank on the disc. The comparison covered all eleven sounds in that bank. Three excerpts of the ambience matched during the second Barents tactical mission, including one checked separately on the left and right channels. Engine pitch changes still need verification.
+An audio recording from the Windows port also matched the stereo cockpit ambience in the F-16C sound bank on the disc. The comparison covered all eleven sounds in that bank. Three excerpts of the ambience matched during the second Barents tactical mission, including one checked separately on the left and right channels. A half-second excerpt from the same flight also matched the engine sound `eng1_3_kinai0510` at about 1.8% below the pitch of the disc sample. The behavior over a full throttle change still needs verification.
 
 After the first Barents Sea optional mission, a test build saved a player replay under a controller-entered name. A cold restart loaded the recording from the original replay menu. All 1,278 input records matched the saved file and played to the end. A separate build from the published alpha.2 archive loaded the same recording through XInput and displayed the 3D replay. Start returned to the replay menu. Both sessions closed normally and preserved the twelve persistent profile files.
 
@@ -41,6 +41,8 @@ The game loops seven video previews while the player stays on Scenario. Two 120-
 The published alpha.2 source archive also built on a fresh installation of Windows 11 Enterprise Evaluation x64. The virtual machine extracted the USA/Europe disc, verified all 81 file hashes and completed all 120 build steps with ReXGlue 0.10.1, Clang 20.1.8 and Visual Studio 2022 Build Tools 17.14.45. The three runtime DLLs matched the developer PC build byte for byte.
 
 On its first launch, that VM selected the Microsoft Basic Render Driver and reached recompiled game code. Windows had no audio playback device. SDL reported that it could not open the default output, and the game exited before the title screen.
+
+After a stereo playback device was installed in the VM, the same executable played the opening movie and reached the French title screen. Ten one-second excerpts recorded from the game process matched the disc soundtrack over a 27-second span. Two screenshots taken 43 seconds apart showed about four seconds of movie progress on the software renderer. Using the SDK's keyboard controls, Start opened the game's message for a new profile.
 
 Use Visual Studio 2022 Build Tools with Desktop development with C++, a Windows SDK, Clang 20.1.8, CMake 3.25 or later, Ninja and the ReXGlue 0.10.1 Windows AMD64 SDK. The tested SDK archive has SHA-256 `26dbcd19e6976a7ad349917bffc58c1a0f21ad43d71a963d16b623c8e70d1f4d`. [LLVM release](https://github.com/llvm/llvm-project/releases/tag/llvmorg-20.1.8) · [ReXGlue release](https://github.com/rexglue/rexglue-sdk/releases/tag/v0.10.1)
 
