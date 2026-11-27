@@ -18,6 +18,8 @@ With the standard Xenos plugin and no controller input, revision `94499dd` enter
 
 A fresh build of `b630f7d` loaded the Area 5 slot through XInput on Windows 11. A virtual Xbox controller supplied the input to the standard executable. The Barents Sea map retained 7,800 points for tactical mission 1 and 1,980 for optional mission 2. The player then entered tactical mission 2 in the default F-16C and reached the cockpit with French radio subtitles.
 
+The original Xbox 360 executable also loaded a copy of this slot in Xenia Canary. Both versions showed the same opening French AWACS subtitle in the F-16C cockpit of Barents tactical mission 2. At a common image size of 1280 x 720, six fixed cockpit and HUD details aligned without shifting either image. The comparison covers this opening view. [Xenia Canary reference revision](https://github.com/xenia-canary/xenia-canary/commit/20106f8cd506dd4a005e17b9c947b901b1acafbb)
+
 After the first Barents Sea optional mission, a test build saved a player replay under a controller-entered name. A cold restart loaded the recording from the original replay menu. All 1,278 input records matched the saved file and played to the end. A separate build from the published alpha.2 archive loaded the same recording through XInput and displayed the 3D replay. Start returned to the replay menu. Both sessions closed normally and preserved the twelve persistent profile files.
 
 At the stationary load menu, PresentMon recorded 7,199 application frame intervals in 120 seconds. The median was 16.60 ms, the 99th percentile was 18.76 ms and the maximum was 19.89 ms. The window stayed in the foreground on a 2560 x 1440, 160 Hz display in independent flip mode.
