@@ -24,6 +24,8 @@ An audio recording from the Windows port also matched the stereo cockpit ambienc
 
 After the first Barents Sea optional mission, a test build saved a player replay under a controller-entered name. A cold restart loaded the recording from the original replay menu. All 1,278 input records matched the saved file and played to the end. A separate build from the published alpha.2 archive loaded the same recording through XInput and displayed the 3D replay. Start returned to the replay menu. Both sessions closed normally and preserved the twelve persistent profile files.
 
+In the test build, the F-16C reached the same recorded start and end positions across 20 seconds of nearly straight flight during recording and playback. Seventeen of the 21 once-per-second position samples matched to three decimal places. The largest separation was 3.96 game units over a flight segment spanning 4,756 units. The two processes sampled on their own clocks.
+
 ## Frame timing
 
 At the stationary load menu, PresentMon recorded 7,199 application frame intervals in 120 seconds. The median was 16.60 ms, the 99th percentile was 18.76 ms and the maximum was 19.89 ms. The window stayed in the foreground on a 2560 x 1440, 160 Hz display in independent flip mode.
@@ -43,6 +45,8 @@ The published alpha.2 source archive also built on a fresh installation of Windo
 On its first launch, that VM selected the Microsoft Basic Render Driver and reached recompiled game code. Windows had no audio playback device. SDL reported that it could not open the default output, and the game exited before the title screen.
 
 After a stereo playback device was installed in the VM, the same executable played the opening movie and reached the French title screen. Ten one-second excerpts recorded from the game process matched the disc soundtrack over a 27-second span. Two screenshots taken 43 seconds apart showed about four seconds of movie progress on the software renderer. Using the SDK's keyboard controls, Start opened the game's message for a new profile.
+
+All five career slots were initially empty. Using the keyboard, the tester created the Beginner pilot `VMTEST` in slot 1 and entered Scenario. The game confirmed the save and displayed the first area's introduction in French. The first slot contained a 29,232-byte save and the other four retained their empty-slot hash. Reaching the cockpit and reloading this pilot after restarting the game remain unverified on this VM.
 
 Use Visual Studio 2022 Build Tools with Desktop development with C++, a Windows SDK, Clang 20.1.8, CMake 3.25 or later, Ninja and the ReXGlue 0.10.1 Windows AMD64 SDK. The tested SDK archive has SHA-256 `26dbcd19e6976a7ad349917bffc58c1a0f21ad43d71a963d16b623c8e70d1f4d`. [LLVM release](https://github.com/llvm/llvm-project/releases/tag/llvmorg-20.1.8) · [ReXGlue release](https://github.com/rexglue/rexglue-sdk/releases/tag/v0.10.1)
 
@@ -89,6 +93,8 @@ The game starts its networking workers before the title screen. With `--overg_of
 During a Barents Sea test, a stock rebuild of ReXGlue 0.10.1 logged 14 rejected physical memory releases on returning from the debrief. Replaying the same mission from the same checkpoint with the corrected runtime logged zero. Both sessions saved 4,200 points and closed normally. The build instructions above use the stock SDK. [Runtime fix tested from Geometry Wars 2 PC Plus](https://github.com/TekRantGaming/geometry-wars-2-pc-plus/blob/bd6c44044205bf1f28d044500b254ccfd8020a9a/patches/rexglue-sdk/0001-physical-release-order.patch)
 
 Use `--input_backend=sdl` for an SDL controller. Set `user_language = 4` in the profile's `overg.toml` for French, 1 for English, 3 for German or 5 for Spanish. In the pilot-name dialog, the D-pad moves, A types, Y changes case, X deletes, Start confirms and B cancels.
+
+In a separate input test, a simulated controller joined player one after keyboard input. Disconnecting it while buttons and axes were held returned those controls to neutral. Reconnecting it under a new device ID restored player-one input. The test exercised the stock SDK and the game's original controller polling routine. Physical hotplug and window focus changes still need an in-game test.
 
 ## Source and dependencies
 
