@@ -24,3 +24,8 @@ test.IDX
 *.dmp
 CMakeUserPresets.json
 /.vs/
+/CMakeLists.txt
+/CMakePresets.json
+/scripts/
+/tests/
+/play.cmd
