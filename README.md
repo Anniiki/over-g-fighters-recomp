@@ -10,13 +10,17 @@ Restarting the test build and loading that profile opened Area 5, the Barents Se
 
 French menus and cockpit subtitles have been observed. With French selected, process audio recordings matched English radio dialogue in Central Africa and six English radio cues from the second Barents Sea tactical mission. The spoken language in the Amazon missions is still unverified.
 
-On Windows 11 x64 with a Radeon RX 6950 XT, the build instructions below compiled the `v0.1.0-alpha.1` source revision from a fresh GitHub archive. An earlier build at `3f0a347` played the complete opening movie and reached the French title screen. Nineteen samples matched both the picture and the soundtrack to the disc movie, including one at 127.46 seconds. The median audio offset was 12 ms later than the corresponding picture, with a video sampling uncertainty of one movie frame (33 ms).
+On Windows 11 x64 with a Radeon RX 6950 XT, the build instructions below compiled both source prereleases from fresh GitHub archives. For [v0.1.0-alpha.2](https://github.com/Anniiki/over-g-fighters-recomp/releases/tag/v0.1.0-alpha.2), a fresh extraction of the supported disc also matched all 81 entries in the disc manifest. An earlier build at `3f0a347` played the complete opening movie and reached the French title screen. Nineteen samples matched both the picture and the soundtrack to the disc movie, including one at 127.46 seconds. The median audio offset was 12 ms later than the corresponding picture, with a video sampling uncertainty of one movie frame (33 ms).
 
 With the standard Xenos plugin and no controller input, revision `94499dd` entered the original 3D demonstration from the French title screen, returned to the title and restarted the opening movie. The loaded controller track matched the disc's `playdemo01` byte for byte and advanced by 540 records during a nine-second sample. All eight files in the copied save checkpoint matched their original hashes after the game closed.
 
 A fresh build of `b630f7d` loaded the Area 5 slot through XInput on Windows 11. A virtual Xbox controller supplied the input to the standard executable. The Barents Sea map retained 7,800 points for tactical mission 1 and 1,980 for optional mission 2. The player then entered tactical mission 2 in the default F-16C and reached the cockpit with French radio subtitles.
 
+After the first Barents Sea optional mission, a test build saved a player replay under a controller-entered name. A cold restart loaded the recording from the original replay menu. All 1,278 input records matched the saved file and played to the end. A separate build from the published alpha.2 archive loaded the same recording through XInput and displayed the 3D replay. Start returned to the replay menu. Both sessions closed normally and preserved the twelve persistent profile files.
+
 At the stationary load menu, PresentMon recorded 7,199 application frame intervals in 120 seconds. The median was 16.60 ms, the 99th percentile was 18.76 ms and the maximum was 19.89 ms. The window stayed in the foreground on a 2560 x 1440, 160 Hz display in independent flip mode.
+
+The Scenario contents menu still stutters on the same PC. Two 120-second tests in composed flip mode recorded 47 application intervals over 50 ms each, in groups roughly ten seconds apart. The standard Xenos plugin reached 200 ms. A private plugin that treats empty resolve rectangles as no-ops eliminated 24,976 pairs of graphics errors and still reached 184 ms. The cause of the periodic pauses remains open.
 
 ## Build on Windows
 
