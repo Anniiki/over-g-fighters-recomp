@@ -6,6 +6,7 @@
 
 #include <cstdlib>
 #include <filesystem>
+#include <string>
 #include <rex/rex_app.h>
 #include <rex/runtime.h>
 
@@ -30,6 +31,19 @@ class OvergApp : public rex::ReXApp {
 
  protected:
 #ifdef _WIN32
+  bool SetupEnvironment() override {
+    try {
+      return rex::ReXApp::SetupEnvironment();
+    } catch (const std::filesystem::filesystem_error& error) {
+      const auto message = std::string("Could not initialize the game folders or player settings.\n\n") +
+          "Check the paths below and close any program using these files. "
+          "For player settings, choose a writable folder with --user_data_root.\n\n" + error.what();
+      REXLOG_ERROR("{}", message);
+      rex::ShowSimpleMessageBox(rex::SimpleMessageBoxType::Error, message);
+      return false;
+    }
+  }
+
   bool ConstructRuntime(const rex::PathConfig& paths) override {
     if (const auto error = RetailDiscError(paths.game_data_root)) {
       REXLOG_ERROR("{}", *error);

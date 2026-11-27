@@ -1,6 +1,7 @@
 #pragma once
 
 #include <filesystem>
+#include <fstream>
 #include <random>
 #include <string>
 #include <system_error>
@@ -12,7 +13,18 @@ inline std::filesystem::path ProfileConfigPath(const std::filesystem::path& prof
                                               const std::filesystem::path& legacy) {
   if (profile.empty()) return legacy;
   const auto destination = profile / "overg.toml";
-  if (std::filesystem::exists(destination)) return destination;
+  const auto readable_config = [&] {
+    if (!std::filesystem::is_regular_file(destination)) {
+      throw std::filesystem::filesystem_error("The player configuration is not a regular file",
+          destination, std::make_error_code(std::errc::invalid_argument));
+    }
+    if (!std::ifstream(destination, std::ios::binary)) {
+      throw std::filesystem::filesystem_error("Could not read the player configuration",
+          destination, std::make_error_code(std::errc::io_error));
+    }
+    return destination;
+  };
+  if (std::filesystem::exists(destination)) return readable_config();
   std::filesystem::create_directories(profile);
   if (!std::filesystem::is_regular_file(legacy)) return destination;
 
@@ -40,5 +52,5 @@ inline std::filesystem::path ProfileConfigPath(const std::filesystem::path& prof
   if (error && !std::filesystem::is_regular_file(destination)) {
     throw std::filesystem::filesystem_error("Could not initialize the player configuration", destination, error);
   }
-  return destination;
+  return readable_config();
 }
