@@ -6,13 +6,17 @@ A Windows x64 port of Over G Fighters, written in C++23. ReXGlue statically tran
 
 On Beginner, a player finished the opening mission with a physical controller. A cold restart loaded the cleared slot and opened Central Africa. Tests on a copy of that career subsequently cleared the Central Africa and Far East strategic missions. In South America, the save records 7,800 points for the stealth mission and 6,840 for the transport escort. After one failed strategic VIP escort, Retry returned the player to the cockpit. The second attempt earned 23,040 points and grade B. The game confirmed the save.
 
-Restarting the test build and loading that profile opened Area 5, the Barents Sea. The first tactical mission earned 7,800 points and grade C. A separate test build based on the [source prerelease](https://github.com/Anniiki/over-g-fighters-recomp/releases/tag/v0.1.0-alpha.1) loaded that checkpoint and entered the second tactical mission offline. The game has displayed its failure and Retry screens there. A full campaign playthrough and installation on a clean Windows system remain open.
+Restarting the test build and loading that profile opened Area 5, the Barents Sea. The first tactical mission earned 7,800 points and grade C. On separate copies of that checkpoint, the first two optional missions earned 4,200 and 1,980 points respectively, both grade C. Each final score matched the saved slot. The second tactical mission remains open. The game has displayed its failure and Retry screens there. A full campaign playthrough and installation on a clean Windows system remain open.
 
 French menus and cockpit subtitles have been observed. With French selected, process audio recordings matched English radio dialogue in Central Africa and six English radio cues from the second Barents Sea tactical mission. The spoken language in the Amazon missions is still unverified.
 
 On Windows 11 x64 with a Radeon RX 6950 XT, the build instructions below compiled the `v0.1.0-alpha.1` source revision from a fresh GitHub archive. An earlier build at `3f0a347` played the complete opening movie and reached the French title screen. Nineteen samples matched both the picture and the soundtrack to the disc movie, including one at 127.46 seconds. The median audio offset was 12 ms later than the corresponding picture, with a video sampling uncertainty of one movie frame (33 ms).
 
 With the standard Xenos plugin and no controller input, revision `94499dd` entered the original 3D demonstration from the French title screen, returned to the title and restarted the opening movie. The loaded controller track matched the disc's `playdemo01` byte for byte and advanced by 540 records during a nine-second sample. All eight files in the copied save checkpoint matched their original hashes after the game closed.
+
+A fresh build of `b630f7d` loaded the Area 5 slot through XInput on Windows 11. A virtual Xbox controller supplied the input to the standard executable. The Barents Sea map retained 7,800 points for tactical mission 1 and 1,980 for optional mission 2. The player then entered tactical mission 2 in the default F-16C and reached the cockpit with French radio subtitles.
+
+At the stationary load menu, PresentMon recorded 7,199 application frame intervals in 120 seconds. The median was 16.60 ms, the 99th percentile was 18.76 ms and the maximum was 19.89 ms. The window stayed in the foreground on a 2560 x 1440, 160 Hz display in independent flip mode.
 
 ## Build on Windows
 
@@ -57,6 +61,8 @@ On direct launch the port discovers `game/default.xex` and checks its SHA-256 fi
 The Windows executable requests UTF-8 for its own process. On Windows 11, a startup test found the expected game, profile and cache folders when their names contained accented, Japanese and Cyrillic characters.
 
 The game starts its networking workers before the title screen. With `--overg_offline=true`, those workers receive the game's network-down error when they request a socket. The default setting uses the original socket path. Multiplayer compatibility is unverified.
+
+During a Barents Sea test, a stock rebuild of ReXGlue 0.10.1 logged 14 rejected physical memory releases on returning from the debrief. Replaying the same mission from the same checkpoint with the corrected runtime logged zero. Both sessions saved 4,200 points and closed normally. The build instructions above use the stock SDK. [Runtime fix tested from Geometry Wars 2 PC Plus](https://github.com/TekRantGaming/geometry-wars-2-pc-plus/blob/bd6c44044205bf1f28d044500b254ccfd8020a9a/patches/rexglue-sdk/0001-physical-release-order.patch)
 
 Use `--input_backend=sdl` for an SDL controller. Set `user_language = 4` in the profile's `overg.toml` for French, 1 for English, 3 for German or 5 for Spanish. In the pilot-name dialog, the D-pad moves, A types, Y changes case, X deletes, Start confirms and B cancels.
 
