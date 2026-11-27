@@ -20,6 +20,8 @@ A fresh build of `b630f7d` loaded the Area 5 slot through XInput on Windows 11. 
 
 The original Xbox 360 executable also loaded a copy of this slot in Xenia Canary. Both versions showed the same opening French AWACS subtitle in the F-16C cockpit of Barents tactical mission 2. At a common image size of 1280 x 720, six fixed cockpit and HUD details aligned without shifting either image. The comparison covers this opening view. [Xenia Canary reference revision](https://github.com/xenia-canary/xenia-canary/commit/20106f8cd506dd4a005e17b9c947b901b1acafbb)
 
+An audio recording from the Windows port also matched the stereo cockpit ambience in the F-16C sound bank on the disc. The comparison covered all eleven sounds in that bank. Three excerpts of the ambience matched during the second Barents tactical mission, including one checked separately on the left and right channels. Engine pitch changes still need verification.
+
 After the first Barents Sea optional mission, a test build saved a player replay under a controller-entered name. A cold restart loaded the recording from the original replay menu. All 1,278 input records matched the saved file and played to the end. A separate build from the published alpha.2 archive loaded the same recording through XInput and displayed the 3D replay. Start returned to the replay menu. Both sessions closed normally and preserved the twelve persistent profile files.
 
 ## Frame timing
