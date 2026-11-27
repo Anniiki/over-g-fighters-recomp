@@ -12,6 +12,8 @@ French menus and cockpit subtitles have been observed. With French selected, pro
 
 On Windows 11 x64 with a Radeon RX 6950 XT, the build instructions below compiled the `v0.1.0-alpha.1` source revision from a fresh GitHub archive. An earlier build at `3f0a347` played the complete opening movie and reached the French title screen. Nineteen samples matched both the picture and the soundtrack to the disc movie, including one at 127.46 seconds. The median audio offset was 12 ms later than the corresponding picture, with a video sampling uncertainty of one movie frame (33 ms).
 
+With the standard Xenos plugin and no controller input, revision `94499dd` entered the original 3D demonstration from the French title screen, returned to the title and restarted the opening movie. The loaded controller track matched the disc's `playdemo01` byte for byte and advanced by 540 records during a nine-second sample. All eight files in the copied save checkpoint matched their original hashes after the game closed.
+
 ## Build on Windows
 
 Use Visual Studio 2022 Build Tools with Desktop development with C++, a Windows SDK, Clang 20.1.8, CMake 3.25 or later, Ninja and the ReXGlue 0.10.1 Windows AMD64 SDK. The tested SDK archive has SHA-256 `26dbcd19e6976a7ad349917bffc58c1a0f21ad43d71a963d16b623c8e70d1f4d`. [LLVM release](https://github.com/llvm/llvm-project/releases/tag/llvmorg-20.1.8) · [ReXGlue release](https://github.com/rexglue/rexglue-sdk/releases/tag/v0.10.1)
