@@ -18,6 +18,8 @@ With the standard Xenos plugin and no controller input, revision `94499dd` enter
 
 Use Visual Studio 2022 Build Tools with Desktop development with C++, a Windows SDK, Clang 20.1.8, CMake 3.25 or later, Ninja and the ReXGlue 0.10.1 Windows AMD64 SDK. The tested SDK archive has SHA-256 `26dbcd19e6976a7ad349917bffc58c1a0f21ad43d71a963d16b623c8e70d1f4d`. [LLVM release](https://github.com/llvm/llvm-project/releases/tag/llvmorg-20.1.8) · [ReXGlue release](https://github.com/rexglue/rexglue-sdk/releases/tag/v0.10.1)
 
+Use a build location with an ASCII-only path, such as `C:\Games\OverG\source`. On the tested Windows installation, the stock 0.10.1 generator stopped before writing the translation when the checkout path contained accented or Japanese characters. Spaces worked.
+
 1. From the checkout, extract your disc with `xdvdfs unpack "<disc.iso>" "../private/game"`. The supported `default.xex` is 7,454,720 bytes with SHA-256 `51cc8b46170e7e965a9a4655727c98e7c9e83abc73a70aae8cc156d26edef453`. Verify it with `certutil -hashfile "../private/game/default.xex" SHA256`. [Disc fingerprints](config/disc-files.sha256) · [XDVDFS 0.8.3](https://github.com/antangelo/xdvdfs/releases/tag/v0.8.3)
 2. Open an x64 Native Tools Command Prompt for Visual Studio. Put the LLVM and ReXGlue `bin` directories on `PATH`. From the checkout run `rexglue codegen overg_manifest.toml`. This generates the translation in `generated/default` and the SDK build definitions in `generated/rexglue.cmake`.
 3. Save the following build description as a local `CMakeLists.txt` at the root of the checkout.
@@ -29,7 +31,7 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(REXSDK_VERSION 0.10.1)
 include(generated/rexglue.cmake)
-add_executable(overg WIN32 src/main.cpp src/language.cpp src/gamepad_keyboard.cpp)
+add_executable(overg WIN32 src/main.cpp src/language.cpp src/gamepad_keyboard.cpp config/overg.manifest)
 rexglue_setup_target(overg GPU_PLUGINS xenos)
 ```
 
@@ -51,6 +53,8 @@ out\build\overg.exe "--game_data_root=%CD%\..\private\game" "--user_data_root=%L
 For a standalone installation, put the extracted disc in a `game` directory beside `overg.exe`. Copy `rexruntimerd.dll`, `rexgpu-xenosrd.dll` and `TracyClientrd.dll` from the RelWithDebInfo build to the same folder as the executable. The target PC needs the Microsoft Visual C++ v14 x64 runtime. [Microsoft runtime download](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170)
 
 On direct launch the port discovers `game/default.xex` and checks its SHA-256 fingerprint before loading the game. The default Windows profile is `%LOCALAPPDATA%\Over G Fighters Recomp`. If only the earlier standalone SDK profile exists, the port uses it. Explicit game, profile and cache paths take precedence over their respective defaults.
+
+The Windows executable requests UTF-8 for its own process. On Windows 11, a startup test found the expected game, profile and cache folders when their names contained accented, Japanese and Cyrillic characters.
 
 The game starts its networking workers before the title screen. With `--overg_offline=true`, those workers receive the game's network-down error when they request a socket. The default setting uses the original socket path. Multiplayer compatibility is unverified.
 
